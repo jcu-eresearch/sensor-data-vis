@@ -1,0 +1,86 @@
+{
+	"sites": [
+		{
+			"id": "darwin",
+			"name": "Darwin Harbour at 18m",
+			"desc": "sensor installation on NRS buoy in Darwin Harbour",
+			"datasets": [
+				{
+					"id": "rawdata",
+					"name": "Raw data",
+					"aggregation": "none",
+					"period": "1y",
+					"intervals": ["1d", "7d", "30d"],
+					"elements": [
+						{
+							"id": "turbidity",
+							"name": "Turbidity @ 18m",
+							"desc": "Turbidity 18 metres below waterline",
+							"axis": "Turbidity (FTU)",
+							"start": "2015-02-14",
+							"end": null
+						},{
+							"id": "temp",
+							"name": "Temperature @ 18m",
+							"desc": "Temperature 18 metres below waterline",
+							"axis": "Temperature (°C)",
+							"start": "2015-02-14",
+							"end": null
+						},{
+							"id": "par",
+							"name": "PAR @ 18m",
+							"desc": "PAR 18 metres below waterline",
+							"axis": "PAR (µmol/m²/s)",
+							"start": "2015-02-14",
+							"end": null
+						}
+					]
+				},{
+					"id": "dailysummary",
+					"name": "Per day summaries",
+					"aggregation": "1d",
+					"period": "all",
+					"intervals": ["30d", "90d", "360d"],
+					"elements": [
+						{
+							"id": "turb-avg",
+							"name": "Avg turbidity @ 18m",
+							"desc": "Daily average turbidity 18 metres below waterline",
+							"axis": "Turbidity (FTU)",
+							"start": "2015-02-14",
+							"end": null
+						},{
+							"id": "temp-min",
+							"name": "Min temp @ 18m",
+							"desc": "Daily minimum temperature 18 metres below waterline",
+							"axis": "Temperature (°C)",
+							"start": "2015-02-14",
+							"end": null
+						},{
+							"id": "temp-max",
+							"name": "Max temp @ 18m",
+							"desc": "Daily maximum temperature 18 metres below waterline",
+							"axis": "Temperature (°C)",
+							"start": "2015-02-14",
+							"end": null
+						},{
+							"id": "temp-avg",
+							"name": "Avg temp @ 18m",
+							"desc": "Daily average temperature 18 metres below waterline",
+							"axis": "Temperature (°C)",
+							"start": "2015-02-14",
+							"end": null
+						},{
+							"id": "par-sum",
+							"name": "Daily PAR @ 18m",
+							"desc": "Daily total PAR 18 metres below waterline",
+							"axis": "PAR (mol/m²)",
+							"start": "2015-02-14",
+							"end": null
+						}
+					]
+				}
+			]
+		}
+	]
+}

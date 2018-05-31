@@ -17,6 +17,16 @@ function removeClass(element, className) {
 	}
 }
 // --------------------------------------------------------
+function selectOption(select, option) {
+	// set the option to selected
+	option = select.querySelector('[value="' + option + '"]')
+	option.selected = true
+	// trigger select change event
+	let event = document.createEvent('HTMLEvents')
+	event.initEvent('change', true, true)
+	select.dispatchEvent(event)
+}
+// --------------------------------------------------------
 function findParent(element, parentTag) {
 	const tag = parentTag.toUpperCase()
 	let parent = element.parentElement
@@ -29,5 +39,6 @@ function findParent(element, parentTag) {
 // --------------------------------------------------------
 module.exports = {
 	hasClass, addClass, removeClass,
+	selectOption,
 	findParent
 }
