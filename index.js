@@ -27,10 +27,10 @@ function prepareForm() {
 	})
 
 	// handle interval change
-	const intSel = document.querySelector('#graph-instance .int-selector')
-	intSel.addEventListener('change', (e)=> {
-		intSelected()
-	})
+	// const intSel = document.querySelector('#graph-instance .int-selector')
+	// intSel.addEventListener('change', (e)=> {
+	// 	intSelected()
+	// })
 }
 // --------------------------------------------------------
 function populateSiteSelector(sites) {
@@ -54,6 +54,7 @@ function populateSiteSelector(sites) {
 	// if there's just one site option, click it now
 	if (sites.length === 1) {
 		domTools.selectOption(sel, sites[0].id)
+		domTools.addClass(fieldsetParent, 'hidden')
 	}
 }
 // --------------------------------------------------------
@@ -89,33 +90,34 @@ function datasetSelected() {
 	})
 	current.loadProcess = Promise.all([current.loadProcess, dataLoadProcess])
 
-	populateIntervalSelector(current.dataset.intervals)
-}
-// --------------------------------------------------------
-function populateIntervalSelector(intervals) {
-	const sel = document.querySelector('#graph-instance .int-selector')
-	sel.innerHTML = ''
-
-	// add an option for each interval
-	intervals.forEach((int)=> {
-		sel.append(new Option(intervalTools.niceName(int), int))
-	})
-
-	let fieldsetParent = domTools.findParent(sel, 'fieldset')
-	domTools.removeClass(fieldsetParent, 'disabled')
-
-	// select the first one
-	domTools.selectOption(sel, intervals[0])
-}
-// --------------------------------------------------------
-function intSelected() {
-	const sel = document.querySelector('#graph-instance .int-selector')
-
-	const intid = sel.value
-	current.interval = intid
-
 	makeGraphs()
+	// populateIntervalSelector(current.dataset.intervals)
 }
+// --------------------------------------------------------
+// function populateIntervalSelector(intervals) {
+// 	const sel = document.querySelector('#graph-instance .int-selector')
+// 	sel.innerHTML = ''
+
+// 	// add an option for each interval
+// 	intervals.forEach((int)=> {
+// 		sel.append(new Option(intervalTools.niceName(int), int))
+// 	})
+
+// 	let fieldsetParent = domTools.findParent(sel, 'fieldset')
+// 	domTools.removeClass(fieldsetParent, 'disabled')
+
+// 	// select the first one
+// 	domTools.selectOption(sel, intervals[0])
+// }
+// // --------------------------------------------------------
+// function intSelected() {
+// 	const sel = document.querySelector('#graph-instance .int-selector')
+
+// 	const intid = sel.value
+// 	current.interval = intid
+
+// 	makeGraphs()
+// }
 // --------------------------------------------------------
 function clearGraphs() {
 	// clear out the graph hholding div
@@ -134,8 +136,10 @@ function makeSubGraphs() {
 	// can only graph when everything is loaded..
 	current.loadProcess.then( ()=> {
 
+		const ds = current.dataset // just for typing convenience
+
 		// for now, graph all fields
-		const fields = current.dataset.elements.map( e => e.id )
+		const fields = ds.elements.map( e => e.id )
 
 		// get all the subgraphs ready -- if there are
 		// fields that share an axis type, they will share
@@ -151,7 +155,7 @@ function makeSubGraphs() {
 			latestDate = intervalTools.latest(latestDate, current.data.time[current.data.time.length - 1])
 
 			// okay now get the field
-			let field = current.dataset.elements.find( c => c.id === f )
+			let field = ds.elements.find( c => c.id === f )
 
 			// make sure there's a subgraph for it
 			if (!subgraphs[field.axis]) {
@@ -182,6 +186,11 @@ function makeSubGraphs() {
 		// layout stuff ready.
 		//
 
+		// buttons for setting the range
+		const rangeButtons = ds.intervals.map( (i)=> {
+			return intervalTools.toRangeSelector(i)
+		})
+
 		let layout = {
 			legend: {
 				orientation: 'h',
@@ -192,11 +201,17 @@ function makeSubGraphs() {
 			},
 			xaxis: {
 				anchor: 'y',
-				range: [
-					intervalTools.windBack(latestDate, current.interval),
-					latestDate
-				],
-				rangeslider: { autorange: true, thickness: 0.05 },
+				rangeselector: {
+					y: -0.2,
+					x: 1,
+					xanchor: 'right',
+					buttons: rangeButtons
+				},
+				rangeslider: {
+					autorange: true,
+					thickness: 0.05,
+					bgcolor: '#def'
+				},
 				type: 'date'
 			},
 			margin: { t:40, b:40 }

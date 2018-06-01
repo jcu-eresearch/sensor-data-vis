@@ -43,10 +43,37 @@ function windBack(date, interval) {
 	return moment(date).subtract(int.count, int.unit).format()
 }
 // --------------------------------------------------------
+// return a Plotly rangeselector button for that interval
+function toRangeSelector(interval, label) {
+
+	const { unit, count } = grok(interval)
+	const name = label || niceName(interval)
+
+	if (unit === 'days') {
+		return {
+			step: 'day',
+			stepmode: 'backward',
+			count: count,
+			label: niceName(interval)
+		}
+	}
+
+	if (unit === 'years') {
+		return {
+			step: 'year',
+			stepmode: 'backward',
+			count: count,
+			label: niceName(interval)
+		}
+	}
+
+}
+// --------------------------------------------------------
 // --------------------------------------------------------
 
 module.exports = {
 	niceName,
 	windBack,
-	earliest, latest
+	earliest, latest,
+	toRangeSelector
 }
