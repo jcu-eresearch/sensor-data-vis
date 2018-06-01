@@ -40,7 +40,7 @@ function latest(date1=moment(), date2=moment()) {
 // return a date which is /interval/ before the given date
 function windBack(date, interval) {
 	const int = grok(interval)
-	return moment(date).subtract(int.count, int.unit).format()
+	return moment(date).subtract(int.count, int.unit).toDate()
 }
 // --------------------------------------------------------
 // return a Plotly rangeselector button for that interval

@@ -149,7 +149,7 @@ function makeSubGraphs() {
 		let traces = []
 		// also, while we're looping through fields,
 		// keep track of the latest date we've seen
-		let latestDate
+		let latestDate = '0000-01-01'
 
 		fields.forEach( (f) => {
 			latestDate = intervalTools.latest(latestDate, current.data.time[current.data.time.length - 1])
@@ -191,6 +191,11 @@ function makeSubGraphs() {
 			return intervalTools.toRangeSelector(i)
 		})
 
+		const startingRange = [
+			intervalTools.windBack(latestDate, ds.intervals[0]),
+			latestDate.toDate()
+		]
+		console.log(startingRange)
 		let layout = {
 			legend: {
 				orientation: 'h',
@@ -212,6 +217,7 @@ function makeSubGraphs() {
 					thickness: 0.05,
 					bgcolor: '#def'
 				},
+				range: startingRange,
 				type: 'date'
 			},
 			margin: { t:40, b:40 }
