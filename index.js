@@ -149,7 +149,7 @@ function makeSubGraphs() {
 		let traces = []
 		// also, while we're looping through fields,
 		// keep track of the latest date we've seen
-		let latestDate = '0000-01-01'
+		let latestDate = '1800-01-01'
 
 		fields.forEach( (f) => {
 			latestDate = intervalTools.latest(latestDate, current.data.time[current.data.time.length - 1])
@@ -216,9 +216,10 @@ function makeSubGraphs() {
 				spikedash: 'dot',
 				anchor: 'y',
 				rangeselector: {
-					y: -0.2,
+					y: -0.1,
 					x: 1,
 					xanchor: 'right',
+					yanchor: 'top',
 					buttons: rangeButtons
 				},
 				rangeslider: {
