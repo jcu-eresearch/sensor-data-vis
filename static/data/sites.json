@@ -71,10 +71,10 @@
 							"start": "2015-02-14",
 							"end": null
 						},{
-							"id": "par-sum",
+							"id": "par-daily",
 							"name": "Daily PAR @ 18m",
 							"desc": "Daily total PAR 18 metres below waterline",
-							"axis": "PAR (mol/m²)",
+							"axis": "PAR (mol/m²/day)",
 							"start": "2015-02-14",
 							"end": null
 						}

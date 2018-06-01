@@ -163,7 +163,12 @@ function makeSubGraphs() {
 				if (sgIndex > 1) {
 					sg.layoutFields.push(['xaxis' + sgIndex, { anchor: 'y' + sgIndex }])
 				}
-				sg.layoutFields.push(['yaxis' + sgIndex, { title: field.axis }])
+				sg.layoutFields.push(['yaxis' + sgIndex, {
+					showspikes: true,
+					spikethickness: 1,
+					spikedash: 'dot',
+					title: field.axis
+				}])
 				// sg.layoutFields.push(['title', field.axis])
 				subgraphs[field.axis] = sg
 				sgIndex += 1
@@ -173,7 +178,8 @@ function makeSubGraphs() {
 			traces.push({
 				x: current.data.time,
 				y: current.data[f],
-				name: f,
+				name: field.name,
+				connectgaps: false,
 				mode: 'lines',
 				line: { color: colors.pickColor(f) },
 				xaxis: 'x',
@@ -205,6 +211,9 @@ function makeSubGraphs() {
 				y: 1.1
 			},
 			xaxis: {
+				showspikes: true,
+				spikethickness: 1,
+				spikedash: 'dot',
 				anchor: 'y',
 				rangeselector: {
 					y: -0.2,
