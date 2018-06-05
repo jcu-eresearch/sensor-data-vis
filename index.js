@@ -62,6 +62,7 @@ function siteSelected() {
 	const sel = document.querySelector('#graph-instance .site-selector')
 	const siteid = sel.value
 	current.site = sites.filter((site)=> site.id === siteid)[0]
+	clearGraphs()
 	populateDatasetSelector(current.site.datasets)
 }
 // --------------------------------------------------------
@@ -89,6 +90,48 @@ function datasetSelected() {
 		current.data = data
 	})
 	current.loadProcess = Promise.all([current.loadProcess, dataLoadProcess])
+
+	populateFieldSelector(current.dataset)
+	makeGraphs()
+	// populateIntervalSelector(current.dataset.intervals)
+}
+// --------------------------------------------------------
+function populateFieldSelector(dataset) {
+	const fs = document.querySelector('#graph-instance .field-selectors')
+	fs.innerHTML = ''
+
+	const crel = document.createElement.bind(document) // save typing
+	const crtx = document.createTextNode.bind(document) // save typing
+
+	if (dataset.defaultgraph) {
+		current.graph = dataset.defaultgraph.sort()
+	} else {
+		current.graph = dataset.elements.map(e => e.id)
+	}
+
+	dataset.elements.forEach( (f) => {
+		const label = crel('label')
+		const checkbox = crel('input')
+		checkbox.type = 'checkbox'
+		checkbox.value = f.id
+		checkbox.checked = (current.graph.includes(f.id))
+		label.appendChild(checkbox)
+		label.appendChild(crtx(f.name))
+		fs.appendChild(label)
+		checkbox.addEventListener('change', (e)=> {
+			fieldSelected()
+		})
+	})
+
+	domTools.removeClass(fs, 'disabled')
+}
+// --------------------------------------------------------
+function fieldSelected() {
+	const fs = document.querySelector('#graph-instance .field-selectors')
+
+	const fields = fs.querySelectorAll('input[type=checkbox]:checked')
+
+	current.graph = Array.from(fields).map((f)=> f.value).sort()
 
 	makeGraphs()
 	// populateIntervalSelector(current.dataset.intervals)
@@ -138,8 +181,7 @@ function makeSubGraphs() {
 
 		const ds = current.dataset // just for typing convenience
 
-		// for now, graph all fields
-		const fields = ds.elements.map( e => e.id )
+		fields = current.graph // selected fields
 
 		// get all the subgraphs ready -- if there are
 		// fields that share an axis type, they will share
@@ -167,7 +209,7 @@ function makeSubGraphs() {
 					showspikes: true,
 					spikethickness: 1,
 					spikedash: 'dot',
-					title: field.axis
+					title: field.axis.replace(' (', '<br>(')
 				}])
 				// sg.layoutFields.push(['title', field.axis])
 				subgraphs[field.axis] = sg
@@ -179,9 +221,14 @@ function makeSubGraphs() {
 				x: current.data.time,
 				y: current.data[f],
 				name: field.name,
-				connectgaps: false,
-				mode: 'lines',
-				line: { color: colors.pickColor(f) },
+				connectgaps: true,
+				type: 'scatter',
+				// type: 'scattergl',
+				mode: 'line',
+				line: {
+					color: colors.pickColor(f),
+					width: 2
+				},
 				xaxis: 'x',
 				yaxis: 'y' + subgraphs[field.axis].index
 			})
@@ -201,7 +248,6 @@ function makeSubGraphs() {
 			intervalTools.windBack(latestDate, ds.intervals[0]),
 			latestDate.toDate()
 		]
-		console.log(startingRange)
 		let layout = {
 			legend: {
 				orientation: 'h',
@@ -257,9 +303,6 @@ function makeSubGraphs() {
 		// 	xaxis3: {anchor: 'y3'},
 		// }
 
-		console.log('subgraphs', traces)
-		console.log('layout', layout)
-
 		plotly.newPlot(
 			graphholder.node(),
 			traces,
@@ -271,55 +314,61 @@ function makeSubGraphs() {
 // --------------------------------------------------------
 function makeStackOfGraphs() {
 
-	clearGraphs()
+	// clearGraphs()
 
-	// can only graph when everything is loaded..
-	current.loadProcess.then( ()=> {
+	// // can only graph when everything is loaded..
+	// current.loadProcess.then( ()=> {
 
-		// for now, graph all fields
-		const fields = current.dataset.elements.map( e => e.id )
+	// 	// graph all fields..
+	// 	let fields = current.dataset.elements.map( e => e.id )
+	// 	// ..unless they specify a defaultgraph field list
+	// 	if ('defaultgraph' in current.dataset) {
+	// 		console.log('default supplied...')
+	// 		fields = current.dataset.defaultgraph
+	// 	}
+	// 	console.log(fields)
 
-		let graphs = {}
+	// 	let graphs = {}
 
-		// turn the field list into a graph list, which
-		// might mean several fields get drawn into the same
-		// graph (if their axes are the same)
-		fields.forEach( (f) => {
-			let field = current.dataset.elements.find( c => c.id === f )
-			if (!graphs[field.axis]) {
-				let latestDate = current.data.time[current.data.time.length - 1]
-				graphs[field.axis] = {
-					data: [],
-					layout: {
-						xaxis: {
-							range: [
-								intervalTools.windBack(latestDate, current.interval),
-								latestDate
-							],
-							rangeslider: { autorange: true },
-							type: 'date'
-						},
-						yaxis: { title: field.axis },
-						margin: { t:50, b:50 }
-					}
-				}
-			}
-			graphs[field.axis].data.push({
-				x: current.data.time,
-				y: current.data[f],
-				mode: 'lines',
-				line: { color: colors.pickColor(field.id) }
-			})
-		})
+	// 	// turn the field list into a graph list, which
+	// 	// might mean several fields get drawn into the same
+	// 	// graph (if their axes are the same)
+	// 	fields.forEach( (f) => {
+	// 		let field = current.dataset.elements.find( c => c.id === f )
+	// 		if (!graphs[field.axis]) {
+	// 			let latestDate = current.data.time[current.data.time.length - 1]
+	// 			graphs[field.axis] = {
+	// 				data: [],
+	// 				layout: {
+	// 					xaxis: {
+	// 						range: [
+	// 							intervalTools.windBack(latestDate, current.interval),
+	// 							latestDate
+	// 						],
+	// 						rangeslider: { autorange: true },
+	// 						type: 'date'
+	// 					},
+	// 					yaxis: { title: field.axis },
+	// 					margin: { t:50, b:50 }
+	// 				}
+	// 			}
+	// 		}
+	// 		graphs[field.axis].data.push({
+	// 			x: current.data.time,
+	// 			y: current.data[f],
+	// 			mode: 'lines',
+	// 			line: { color: colors.pickColor(field.id) }
+	// 		})
+	// 	})
 
-		Object.values(graphs).forEach( (g)=> {
-			// new div for each graph
-			let graphDiv = document.createElement('div')
-			graphholder.node().appendChild(graphDiv)
-			plotly.newPlot(graphDiv, g.data, g.layout, {displayModeBar: false})
-		})
+	// 	Object.values(graphs).forEach( (g)=> {
+	// 		// new div for each graph
+	// 		let graphDiv = document.createElement('div')
+	// 		graphholder.node().appendChild(graphDiv)
+	// 		plotly.newPlot(graphDiv, g.data, g.layout, {displayModeBar: false})
+	// 	})
 
-	})
+	// })
 
 }
 // --------------------------------------------------------
@@ -335,6 +384,7 @@ let current = {
 	dataset: null,
 	interval: null,
 	date: null,
+	graph: [],
 
 	data: null
 }

@@ -6,41 +6,17 @@
 			"desc": "sensor installation on NRS buoy in Darwin Harbour",
 			"datasets": [
 				{
-					"id": "rawdata",
-					"name": "Raw data",
-					"aggregation": "none",
-					"period": "1y",
-					"intervals": ["1d", "7d", "30d"],
-					"elements": [
-						{
-							"id": "turbidity",
-							"name": "Turbidity @ 18m",
-							"desc": "Turbidity 18 metres below waterline",
-							"axis": "Turbidity (FTU)",
-							"start": "2015-02-14",
-							"end": null
-						},{
-							"id": "temp",
-							"name": "Temperature @ 18m",
-							"desc": "Temperature 18 metres below waterline",
-							"axis": "Temperature (°C)",
-							"start": "2015-02-14",
-							"end": null
-						},{
-							"id": "par",
-							"name": "PAR @ 18m",
-							"desc": "PAR 18 metres below waterline",
-							"axis": "PAR (µmol/m²/s)",
-							"start": "2015-02-14",
-							"end": null
-						}
-					]
-				},{
 					"id": "dailysummary",
 					"name": "Per day summaries",
 					"aggregation": "1d",
 					"period": "all",
-					"intervals": ["30d", "90d", "1y"],
+					"intervals": ["1y", "90d", "30d"],
+					"timeid": "date_time",
+					"defaultgraph": [
+						"temp-min",
+						"temp-max",
+						"par-daily"
+					],
 					"elements": [
 						{
 							"id": "turb-avg",
@@ -76,6 +52,109 @@
 							"desc": "Daily total PAR 18 metres below waterline",
 							"axis": "PAR (mol/m²/day)",
 							"start": "2015-02-14",
+							"end": null
+						}
+					]
+				},{
+					"id": "rawdata",
+					"name": "Raw data",
+					"aggregation": "none",
+					"period": "1y",
+					"intervals": ["30d", "7d", "1d"],
+					"timeid": "date_time",
+					"elements": [
+						{
+							"id": "turbidity",
+							"name": "Turbidity @ 18m",
+							"desc": "Turbidity 18 metres below waterline",
+							"axis": "Turbidity (FTU)",
+							"start": "2015-02-14",
+							"end": null
+						},{
+							"id": "temp",
+							"name": "Temperature @ 18m",
+							"desc": "Temperature 18 metres below waterline",
+							"axis": "Temperature (°C)",
+							"start": "2015-02-14",
+							"end": null
+						},{
+							"id": "par",
+							"name": "PAR @ 18m",
+							"desc": "PAR 18 metres below waterline",
+							"axis": "PAR (µmol/m²/s)",
+							"start": "2015-02-14",
+							"end": null
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "yongala",
+			"name": "Wreck of the Yongala",
+			"desc": "sensor installation near the wreck of the SS Yongala",
+			"datasets": [
+				{
+					"id": "rawdata",
+					"name": "Raw data",
+					"aggregation": "none",
+					"period": "1y",
+					"intervals": ["30d", "7d", "1d"],
+					"timeid": "date time",
+					"defaultgraph": [
+						"Water Temperature @1.0m",
+						"Water Temperature @26.0m",
+						"PAR @26.0m"
+					],
+					"elements": [
+						{
+							"id": "Water Temperature @1.0m",
+							"name": "Water Temp @ 1m",
+							"desc": "Water temperature 1 metre below waterline",
+							"axis": "Temperature (°C)",
+							"start": "2013-09-19",
+							"end": null
+						},{
+							"id": "CurrentDirection @7.0m",
+							"name": "Current Bearing @ 7m",
+							"desc": "Water current direction 7 metres below waterline",
+							"axis": "Bearing (° from N)",
+							"start": "2013-09-19",
+							"end": null
+						},{
+							"id": "CurrentMagnitude @7.0m",
+							"name": "Current Magnitude @ 7m",
+							"desc": "Water current magitude 7 metres below waterline",
+							"axis": "Magnitude (m/sec)",
+							"start": "2013-09-19",
+							"end": null
+						},{
+							"id": "Turbidity @26.0m",
+							"name": "Turbidity @ 26m",
+							"desc": "Turbidity 26 metres below waterline",
+							"axis": "Turbidity (FTU)",
+							"start": "2013-09-19",
+							"end": null
+						},{
+							"id": "Water Pressure @26.0m",
+							"name": "Pressure @ 26m",
+							"desc": "Water pressure 26 metres below waterline",
+							"axis": "Pressure (decibars)",
+							"start": "2013-09-19",
+							"end": null
+						},{
+							"id": "Water Temperature @26.0m",
+							"name": "Water Temp @ 26m",
+							"desc": "Water temperature 26 metres below waterline",
+							"axis": "Temperature (°C)",
+							"start": "2013-09-19",
+							"end": null
+						},{
+							"id": "PAR @26.0m",
+							"name": "PAR @ 26m",
+							"desc": "PAR 26 metres below waterline",
+							"axis": "PAR (µmol/m²/s)",
+							"start": "2013-09-19",
 							"end": null
 						}
 					]

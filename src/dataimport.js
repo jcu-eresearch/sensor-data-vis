@@ -20,12 +20,18 @@ function datasetUrl(prefix, site, dataset, period) {
 function loadDataset(site, dataset, date) {
 
 	date = moment( date ? date : [] )
+	date = moment('2017-01-01')
 
 	// need to turn the period into a file suffix
 	const periodFormatList = {
 		'all': '[all]',
 		'1y': 'YYYY',
 	}
+
+	const nullStrings = [
+		'', 'NA', 'na', 'n/a', 'N/A', 'Not available', 'not available'
+	]
+
 	// pick the right format string
 	const periodFormat = periodFormatList[dataset.period.toLowerCase()]
 	// apply that format to the requested date
@@ -37,7 +43,10 @@ function loadDataset(site, dataset, date) {
 	let result = new Promise( (resolve, reject) => {
 
 		let data = { time: [] }
-		const timeField = 'date_time'
+
+		const timeField = dataset.timeid
+		console.log(timeField)
+
 		d3.csv(url, (err, rawData) => {
 			if (err) throw err
 
@@ -46,9 +55,14 @@ function loadDataset(site, dataset, date) {
 			fields.forEach( (f) => data[f] = [] )
 
 			rawData.forEach( (row, i) => {
-				// data.time.push(moment(row[timeField]).format('YYYY-MM-DD HH:mm:ss'))
 				data.time.push(moment(row[timeField]).toDate())
-				fields.forEach( (f) => data[f].push(+row[f]) )
+				fields.forEach( (f) => {
+					if (nullStrings.includes(row[f])) {
+						data[f].push(null)
+					} else {
+						data[f].push(+row[f])
+					}
+				})
 			})
 
 			resolve(data)
