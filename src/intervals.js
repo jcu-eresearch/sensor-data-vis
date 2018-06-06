@@ -10,7 +10,7 @@ function niceName(interval) {
 	)
 }
 // --------------------------------------------------------
-// return a thingy
+// how many of what are in the given interval
 function grok(interval) {
 	const bits = interval.match(/^(\d+)(.)$/)
 	let unit = {
@@ -37,13 +37,44 @@ function latest(date1=moment(), date2=moment()) {
 	return d1
 }
 // --------------------------------------------------------
-// return a date which is /interval/ before the given date
+// return a date which is /interval/ after the given date
 function windBack(date, interval) {
 	const int = grok(interval)
 	return moment(date).subtract(int.count, int.unit).toDate()
 }
 // --------------------------------------------------------
-// return a Plotly rangeselector button for that interval
+// return a date which is /interval/ before the given date
+function windForward(date, interval) {
+	const int = grok(interval)
+	return moment(date).add(int.count, int.unit).toDate()
+}
+// --------------------------------------------------------
+// return a formatted string describing the interval
+// the given date falls within
+function intervalName(date, interval) {
+	const { unit } = grok(interval)
+	if (unit === 'days') {
+		return moment(date).format('YYYY-MM-DD')
+	}
+	if (unit === 'years') {
+		return moment(date).format('YYYY')
+	}
+}
+// --------------------------------------------------------
+// return dates from -> to in steps of interval
+function listDates(from, to, interval) {
+	const { unit, count } = grok(interval)
+	let list = []
+	let timePoint = moment(from)
+	let endPoint = moment(to)
+	while (timePoint.isSameOrBefore(endPoint)) {
+		list.push(timePoint.format())
+		timePoint.add(count, unit)
+	}
+	return list
+}
+// --------------------------------------------------------
+// return Plotly rangeselector settings for that interval
 function toRangeSelector(interval, label) {
 
 	const { unit, count } = grok(interval)
@@ -73,7 +104,9 @@ function toRangeSelector(interval, label) {
 
 module.exports = {
 	niceName,
-	windBack,
+	windBack, windForward,
 	earliest, latest,
+	intervalName,
+	listDates,
 	toRangeSelector
 }

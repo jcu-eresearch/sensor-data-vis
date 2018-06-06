@@ -26,10 +26,14 @@
 				float: left;
 				clear: left;
 			}
+			fieldset label.int-label {
+				margin: 0.5em 0;
+				float: right;
+			}
 			fieldset.disabled {
 				opacity: 0.5;
 			}
-			fieldset.hidden {
+			.hidden {
 				display: none;
 			}
 			select, input {
@@ -61,16 +65,12 @@
 							<option disabled selected>loading...</option>
 						</select>
 					</label>
-				</fieldset>
-<!--
-				<fieldset class="disabled">
-					<label>Show on the graph
+					<label class="int-label hidden">for
 						<select class="int-selector">
 							<option disabled selected>loading...</option>
 						</select>
 					</label>
 				</fieldset>
- -->
  				<fieldset class="disabled field-selectors">
  				</fieldset>
 			</form>

@@ -20,7 +20,6 @@ function datasetUrl(prefix, site, dataset, period) {
 function loadDataset(site, dataset, date) {
 
 	date = moment( date ? date : [] )
-	date = moment('2017-01-01')
 
 	// need to turn the period into a file suffix
 	const periodFormatList = {
@@ -38,17 +37,20 @@ function loadDataset(site, dataset, date) {
 	const periodSuffix = date.format(periodFormat)
 
 	const url = datasetUrl('./data', site.id, dataset.id, periodSuffix)
-	console.log(url)
+	console.log('loading from ' + url)
 
 	let result = new Promise( (resolve, reject) => {
 
 		let data = { time: [] }
 
 		const timeField = dataset.timeid
-		console.log(timeField)
 
+		console.log('getting from ', url)
 		d3.csv(url, (err, rawData) => {
-			if (err) throw err
+			if (err) {
+				reject(err)
+				return
+			}
 
 			const fields = dataset.elements.map( (e) => e.id )
 

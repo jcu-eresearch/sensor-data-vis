@@ -27,10 +27,10 @@ function prepareForm() {
 	})
 
 	// handle interval change
-	// const intSel = document.querySelector('#graph-instance .int-selector')
-	// intSel.addEventListener('change', (e)=> {
-	// 	intSelected()
-	// })
+	const intSel = document.querySelector('#graph-instance .int-selector')
+	intSel.addEventListener('change', (e)=> {
+		intSelected()
+	})
 }
 // --------------------------------------------------------
 function populateSiteSelector(sites) {
@@ -64,6 +64,9 @@ function siteSelected() {
 	current.site = sites.filter((site)=> site.id === siteid)[0]
 	clearGraphs()
 	populateDatasetSelector(current.site.datasets)
+
+	clearIntervalSelector()
+	clearFieldSelector()
 }
 // --------------------------------------------------------
 function populateDatasetSelector(datasets) {
@@ -84,16 +87,14 @@ function datasetSelected() {
 	const setid = sel.value
 	current.dataset = current.site.datasets.filter((set)=> set.id === setid)[0]
 
-	dataLoadProcess = dataImporter.loadDataset(
-		current.site, current.dataset, current.date
-	).then((data)=> {
-		current.data = data
-	})
-	current.loadProcess = Promise.all([current.loadProcess, dataLoadProcess])
-
+	populateIntervalSelector(current.dataset)
 	populateFieldSelector(current.dataset)
-	makeGraphs()
-	// populateIntervalSelector(current.dataset.intervals)
+}
+// --------------------------------------------------------
+function clearFieldSelector() {
+	const fs = document.querySelector('#graph-instance .field-selectors')
+	fs.innerHTML = ''
+	domTools.addClass(fs, 'disabled')
 }
 // --------------------------------------------------------
 function populateFieldSelector(dataset) {
@@ -134,33 +135,59 @@ function fieldSelected() {
 	current.graph = Array.from(fields).map((f)=> f.value).sort()
 
 	makeGraphs()
-	// populateIntervalSelector(current.dataset.intervals)
 }
 // --------------------------------------------------------
-// function populateIntervalSelector(intervals) {
-// 	const sel = document.querySelector('#graph-instance .int-selector')
-// 	sel.innerHTML = ''
+function clearIntervalSelector(dataset) {
+	const lab = document.querySelector('#graph-instance .int-label')
+	const sel = document.querySelector('#graph-instance .int-selector')
+	sel.innerHTML = ''
+	domTools.addClass(lab, 'hidden')
+}
+// --------------------------------------------------------
+function populateIntervalSelector(dataset) {
 
-// 	// add an option for each interval
-// 	intervals.forEach((int)=> {
-// 		sel.append(new Option(intervalTools.niceName(int), int))
-// 	})
+	const lab = document.querySelector('#graph-instance .int-label')
+	const sel = document.querySelector('#graph-instance .int-selector')
 
-// 	let fieldsetParent = domTools.findParent(sel, 'fieldset')
-// 	domTools.removeClass(fieldsetParent, 'disabled')
+	sel.innerHTML = ''
 
-// 	// select the first one
-// 	domTools.selectOption(sel, intervals[0])
-// }
-// // --------------------------------------------------------
-// function intSelected() {
-// 	const sel = document.querySelector('#graph-instance .int-selector')
+	if (dataset.period === 'all') {
+		// if there's no intervals, clean up then bail out
+		current.date = (new Date).toISOString()
+		domTools.addClass(lab, 'hidden')
+		makeGraphs()
+		return
+	}
 
-// 	const intid = sel.value
-// 	current.interval = intid
+	//
+	// so there's intervals for the user to choose from.
+	// Let's make a list of them.
+	//
+	const start = dataset.elements.reduce(
+		(first, elem)=> intervalTools.earliest(first, elem.start)
+	)
+	const end = dataset.elements.reduce(
+		(last, elem)=> intervalTools.latest(last, elem.end)
+	)
 
-// 	makeGraphs()
-// }
+	const intervals = intervalTools.listDates(start, end, dataset.period)
+
+	//
+	// add an option for each interval
+	intervals.forEach((int)=> {
+		sel.append(new Option(intervalTools.intervalName(int, dataset.period), int))
+	})
+	domTools.selectOption(sel, intervals[intervals.length - 1])
+
+	domTools.removeClass(lab, 'hidden')
+}
+// --------------------------------------------------------
+function intSelected() {
+	const sel = document.querySelector('#graph-instance .int-selector')
+	current.date = sel.value
+
+	makeGraphs()
+}
 // --------------------------------------------------------
 function clearGraphs() {
 	// clear out the graph hholding div
@@ -168,7 +195,23 @@ function clearGraphs() {
 }
 // --------------------------------------------------------
 function makeGraphs() {
-	// makeStackOfGraphs()
+	let dataLoadProcess = dataImporter.loadDataset(
+		current.site, current.dataset, current.date
+	).then((data)=> {
+		current.data = data
+	}).catch((err)=> {
+		const dataDesc = [
+			current.site.id,
+			current.dataset.id,
+			intervalTools.intervalName(current.date, current.dataset.period)
+		].join(' / ')
+		current.data = null
+		alert('\nThere was a problem!\n\n'
+			+ 'Data for ' + dataDesc + ' is not available.'
+		)
+	})
+	current.loadProcess = dataLoadProcess
+
 	makeSubGraphs()
 }
 // --------------------------------------------------------
@@ -390,11 +433,17 @@ let current = {
 }
 
 importProcess = dataImporter.getDataInfo().then((siteList) => {
+	// succeed
 	sites = siteList
 	populateSiteSelector(sites)
+}, (error)=> {
+	// fail
+	alert('\nThere was a problem!'
+		+ '\n\nTried fetching information about datasets but could not find it.'
+		+ '\nReload this page to try again.'
+	)
 })
 
-current.loadProcess = Promise.all([current.loadProcess, importProcess])
 
 
 
