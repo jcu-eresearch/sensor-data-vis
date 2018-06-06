@@ -4,6 +4,8 @@ const intervalTools = require('./src/intervals')
 const dataImporter = require('./src/dataimport')
 const colors = require('./src/colors')
 
+window.colors = colors
+
 const plotly = require('plotly.js')
 
 const d3 = plotly.d3

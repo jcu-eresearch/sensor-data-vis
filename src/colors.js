@@ -29,13 +29,14 @@ function hashString(str) {
     while ( i < len ) {
         hash  = ((hash << 5) - hash + str.charCodeAt(i++)) << 0
     }
-    return hash
+    return Math.abs(hash)
 }
 
 function pickColor(str, scheme='dutch') {
 	const hash = hashString(str)
 	const list = schemes[scheme]
-	return (list[hash % list.length])
+
+	return(list[hash % list.length])
 }
 
 module.exports = {
