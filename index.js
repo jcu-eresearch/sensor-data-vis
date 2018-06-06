@@ -64,7 +64,6 @@ function siteSelected() {
 	current.site = sites.filter((site)=> site.id === siteid)[0]
 	clearGraphs()
 	populateDatasetSelector(current.site.datasets)
-
 	clearIntervalSelector()
 	clearFieldSelector()
 }
@@ -89,6 +88,62 @@ function datasetSelected() {
 
 	populateIntervalSelector(current.dataset)
 	populateFieldSelector(current.dataset)
+}
+// --------------------------------------------------------
+function clearIntervalSelector(dataset) {
+	const lab = document.querySelector('#graph-instance .int-label')
+	const sel = document.querySelector('#graph-instance .int-selector')
+	sel.innerHTML = ''
+	domTools.addClass(lab, 'hidden')
+}
+// --------------------------------------------------------
+function populateIntervalSelector(dataset) {
+
+	const lab = document.querySelector('#graph-instance .int-label')
+	const sel = document.querySelector('#graph-instance .int-selector')
+
+	sel.innerHTML = ''
+
+	if (dataset.period === 'all') {
+		// if there's no intervals, clean up then bail out
+		current.date = (new Date).toISOString()
+		domTools.addClass(lab, 'hidden')
+		loadDataAndMakeGraphs()
+		return
+	}
+
+	//
+	// so there's intervals for the user to choose from.
+	// Let's make a list of them.
+	//
+	const start = dataset.elements.reduce(
+		(first, elem)=> intervalTools.earliest(first, elem.start),
+		new Date('9999-12-31')
+	)
+	const end = dataset.elements.reduce(
+		(last, elem)=> intervalTools.latest(last, (elem.end || new Date())),
+		new Date('0000-01-01')
+	)
+
+	const intervals = intervalTools.listDates(start, end, dataset.period)
+
+	console.log(start, end, intervals)
+
+	//
+	// add an option for each interval
+	intervals.forEach((int)=> {
+		sel.append(new Option(intervalTools.intervalName(int, dataset.period), int))
+	})
+	domTools.selectOption(sel, intervals[intervals.length - 1])
+
+	domTools.removeClass(lab, 'hidden')
+}
+// --------------------------------------------------------
+function intSelected() {
+	const sel = document.querySelector('#graph-instance .int-selector')
+	current.date = sel.value
+
+	loadDataAndMakeGraphs()
 }
 // --------------------------------------------------------
 function clearFieldSelector() {
@@ -134,59 +189,7 @@ function fieldSelected() {
 
 	current.graph = Array.from(fields).map((f)=> f.value).sort()
 
-	makeGraphs()
-}
-// --------------------------------------------------------
-function clearIntervalSelector(dataset) {
-	const lab = document.querySelector('#graph-instance .int-label')
-	const sel = document.querySelector('#graph-instance .int-selector')
-	sel.innerHTML = ''
-	domTools.addClass(lab, 'hidden')
-}
-// --------------------------------------------------------
-function populateIntervalSelector(dataset) {
-
-	const lab = document.querySelector('#graph-instance .int-label')
-	const sel = document.querySelector('#graph-instance .int-selector')
-
-	sel.innerHTML = ''
-
-	if (dataset.period === 'all') {
-		// if there's no intervals, clean up then bail out
-		current.date = (new Date).toISOString()
-		domTools.addClass(lab, 'hidden')
-		makeGraphs()
-		return
-	}
-
-	//
-	// so there's intervals for the user to choose from.
-	// Let's make a list of them.
-	//
-	const start = dataset.elements.reduce(
-		(first, elem)=> intervalTools.earliest(first, elem.start)
-	)
-	const end = dataset.elements.reduce(
-		(last, elem)=> intervalTools.latest(last, elem.end)
-	)
-
-	const intervals = intervalTools.listDates(start, end, dataset.period)
-
-	//
-	// add an option for each interval
-	intervals.forEach((int)=> {
-		sel.append(new Option(intervalTools.intervalName(int, dataset.period), int))
-	})
-	domTools.selectOption(sel, intervals[intervals.length - 1])
-
-	domTools.removeClass(lab, 'hidden')
-}
-// --------------------------------------------------------
-function intSelected() {
-	const sel = document.querySelector('#graph-instance .int-selector')
-	current.date = sel.value
-
-	makeGraphs()
+	drawGraphs()
 }
 // --------------------------------------------------------
 function clearGraphs() {
@@ -194,7 +197,7 @@ function clearGraphs() {
 	graphholder.node().innerHTML = ''
 }
 // --------------------------------------------------------
-function makeGraphs() {
+function loadDataAndMakeGraphs() {
 	let dataLoadProcess = dataImporter.loadDataset(
 		current.site, current.dataset, current.date
 	).then((data)=> {
@@ -212,10 +215,10 @@ function makeGraphs() {
 	})
 	current.loadProcess = dataLoadProcess
 
-	makeSubGraphs()
+	drawGraphs()
 }
 // --------------------------------------------------------
-function makeSubGraphs() {
+function drawGraphs() {
 
 	clearGraphs()
 

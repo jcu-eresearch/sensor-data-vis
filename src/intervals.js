@@ -67,9 +67,10 @@ function listDates(from, to, interval) {
 	let list = []
 	let timePoint = moment(from)
 	let endPoint = moment(to)
+	list.push(timePoint.format())
 	while (timePoint.isSameOrBefore(endPoint)) {
-		list.push(timePoint.format())
 		timePoint.add(count, unit)
+		list.push(timePoint.format())
 	}
 	return list
 }
