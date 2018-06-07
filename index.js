@@ -371,18 +371,20 @@ function drawGraphs() {
 			})
 		})
 
-		// layout = {
-		// 	yaxis: {domain: [0, 0.25]},
-		// 	yaxis2: {domain: [0.35, 0.6]},
-		// 	yaxis3: {domain: [0.7, 0.9]},
-		// 	xaxis2: {anchor: 'y2'},
-		// 	xaxis3: {anchor: 'y3'},
-		// }
+		const options = {
+			displaylogo: false,
+			modeBarButtonsToRemove: [
+				'hoverClosestCartesian',
+				'hoverCompareCartesian',
+				'toggleSpikelines'
+			]
+		}
 
 		plotly.newPlot(
 			graphholder.node(),
 			traces,
-			layout
+			layout,
+			options
 		)
 	})
 
