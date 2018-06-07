@@ -151,7 +151,7 @@ function intSelected() {
 function clearFieldSelector() {
 	const fs = document.querySelector('#graph-instance .field-selectors')
 	fs.innerHTML = ''
-	domTools.addClass(fs, 'disabled')
+	domTools.addClass(fs, 'hidden')
 }
 // --------------------------------------------------------
 function populateFieldSelector(dataset) {
@@ -181,7 +181,7 @@ function populateFieldSelector(dataset) {
 		})
 	})
 
-	domTools.removeClass(fs, 'disabled')
+	domTools.removeClass(fs, 'hidden')
 }
 // --------------------------------------------------------
 function fieldSelected() {
@@ -194,12 +194,26 @@ function fieldSelected() {
 	drawGraphs()
 }
 // --------------------------------------------------------
+function showLoading(message='loading') {
+	const fs = document.querySelector('#graph-instance .loading')
+	fs.innerHTML = message
+	domTools.removeClass(fs, 'clear')
+	setTimeout( ()=> fs.innerHTML = message, 1000)
+}
+// --------------------------------------------------------
+function clearLoading() {
+	const fs = document.querySelector('#graph-instance .loading')
+	domTools.addClass(fs, 'clear')
+	setTimeout( ()=> fs.innerHTML = '', 1000)
+}
+// --------------------------------------------------------
 function clearGraphs() {
 	// clear out the graph hholding div
 	graphholder.node().innerHTML = ''
 }
 // --------------------------------------------------------
 function loadDataAndMakeGraphs() {
+	showLoading('loading data')
 	let dataLoadProcess = dataImporter.loadDataset(
 		current.site, current.dataset, current.date
 	).then((data)=> {
@@ -214,7 +228,8 @@ function loadDataAndMakeGraphs() {
 		alert('\nThere was a problem!\n\n'
 			+ 'Data for ' + dataDesc + ' is not available.'
 		)
-	})
+	}).finally( ()=> clearLoading() )
+
 	current.loadProcess = dataLoadProcess
 
 	drawGraphs()
@@ -422,6 +437,7 @@ function makeStackOfGraphs() {
 // --------------------------------------------------------
 // --------------------------------------------------------
 prepareForm()
+clearLoading()
 
 let sites = []
 const emptyPromise = new Promise((resolve)=> resolve(false))
@@ -437,16 +453,19 @@ let current = {
 	data: null
 }
 
+showLoading('discovering datasets')
 importProcess = dataImporter.getDataInfo().then((siteList) => {
 	// succeed
 	sites = siteList
 	populateSiteSelector(sites)
+	clearLoading()
 }, (error)=> {
 	// fail
 	alert('\nThere was a problem!'
 		+ '\n\nTried fetching information about datasets but could not find it.'
 		+ '\nReload this page to try again.'
 	)
+	clearLoading()
 })
 
 

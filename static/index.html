@@ -8,17 +8,19 @@
 				font-family: sans-serif;
 				background: #f4f4e4;
 				background: #ddeeff;
-				padding: 2em;
+				background: #eef8ff;
+				padding: 0 1em;
 			}
 			form {
 				display: flex;
+				justify-content: flex-start;
 				flex-wrap: wrap;
-				justify-content: center;
 			}
 			fieldset {
+				border-radius: 3px;
 				background-color: #fff;
 				border: none;
-				margin: 1em;
+				margin: 1em 1em 1em 0;
 				padding: 0.5em 1em;
 				text-align: center;
 			}
@@ -41,10 +43,56 @@
 				font-size: inherit;
 			}
 			#graphholder {
+				border-radius: 3px;
+				overflow: hidden;
 				width: 100%;
 				min-height: 500px;
 				height: 75vh;
 			}
+			fieldset.clear { opacity: 0; }
+			fieldset.loading {
+				min-width: 5em;
+				text-align: left;
+				height: 1.5em;
+				line-height: 1.5em;
+				padding-left: 2.5em;
+				position: relative;
+				transition: 1s;
+			}
+			fieldset.loading:before, fieldset.loading:after {
+				content: '';
+				width: 1.25em; height: 1.25em;
+				border-radius: 50%;
+				background-color: #6fc;
+				opacity: 0.6;
+				position: absolute;
+				top: calc(50% - 0.675em); left: 0.7em;
+
+				-webkit-animation: sk-bounce 1.6s infinite ease-in-out;
+				animation: sk-bounce 1.6s infinite ease-in-out;
+			}
+
+			fieldset.loading:after {
+				background-color: #9cf;
+				-webkit-animation-delay: -0.6s;
+				animation-delay: -0.6s;
+			}
+
+			@-webkit-keyframes sk-bounce {
+				0%, 100% { -webkit-transform: scale(0.0) }
+				50% { -webkit-transform: scale(1.0) }
+			}
+
+			@keyframes sk-bounce {
+				0%, 100% {
+					transform: scale(0.0);
+					-webkit-transform: scale(0.0);
+				} 50% {
+					transform: scale(1.0);
+					-webkit-transform: scale(1.0);
+				}
+			}
+
 		</style>
 	</head>
 	<body>
@@ -71,7 +119,10 @@
 						</select>
 					</label>
 				</fieldset>
- 				<fieldset class="disabled field-selectors">
+ 				<fieldset class="hidden field-selectors">
+ 				</fieldset>
+ 				<fieldset class="loading">
+ 					loading
  				</fieldset>
 			</form>
 
