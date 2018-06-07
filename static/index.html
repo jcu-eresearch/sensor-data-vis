@@ -28,9 +28,20 @@
 				float: left;
 				clear: left;
 			}
-			fieldset label.int-label {
-				margin: 0.5em 0;
+			fieldset label.int-label, fieldset label.download-label {
+				margin: 0.5em 0 0;
 				float: right;
+				clear: both;
+			}
+			fieldset .download-link {
+				opacity: 0.5;
+				text-decoration: none;
+				margin: 0 1em;
+				transition: 0.5s;
+			}
+			fieldset .download-link:hover {
+				opacity: 1;
+				text-decoration: underline;
 			}
 			fieldset.disabled {
 				opacity: 0.5;
@@ -117,6 +128,9 @@
 						<select class="int-selector">
 							<option disabled selected>loading...</option>
 						</select>
+					</label>
+					<label class="download-label hidden">
+						<a class="download-link" href="">download this dataset</a>
 					</label>
 				</fieldset>
  				<fieldset class="hidden field-selectors">

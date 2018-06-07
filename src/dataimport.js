@@ -3,6 +3,8 @@ const intervals = require('./intervals')
 const moment = require('moment')
 const d3 = require('plotly.js').d3
 
+const fileLocationPrefix = './data'
+
 // --------------------------------------------------------
 function getDataInfo(dataUrl = './data/sites.json') {
 	return fetch(dataUrl)
@@ -10,14 +12,7 @@ function getDataInfo(dataUrl = './data/sites.json') {
 		.then((data) => data.sites)
 }
 // --------------------------------------------------------
-function datasetUrl(prefix, site, dataset, period) {
-	return [
-		prefix, site,
-		[dataset, period].join('-')
-	].join('/') + '.csv'
-}
-// --------------------------------------------------------
-function loadDataset(site, dataset, date) {
+function datasetUrl(site, dataset, date) {
 
 	date = moment( date ? date : [] )
 
@@ -26,26 +21,31 @@ function loadDataset(site, dataset, date) {
 		'all': '[all]',
 		'1y': 'YYYY',
 	}
-
-	const nullStrings = [
-		'', 'NA', 'na', 'n/a', 'N/A', 'Not available', 'not available'
-	]
-
 	// pick the right format string
 	const periodFormat = periodFormatList[dataset.period.toLowerCase()]
 	// apply that format to the requested date
 	const periodSuffix = date.format(periodFormat)
 
-	const url = datasetUrl('./data', site.id, dataset.id, periodSuffix)
-	console.log('loading from ' + url)
+	return [
+		fileLocationPrefix,
+		site.id,
+		dataset.id + '-' + periodSuffix
+	].join('/') + '.csv'
+}
+// --------------------------------------------------------
+function loadDataset(site, dataset, date) {
+
+	const nullStrings = [
+		'', 'NA', 'na', 'n/a', 'N/A', 'Not available', 'not available'
+	]
+
+	const url = datasetUrl(site, dataset, date)
 
 	let result = new Promise( (resolve, reject) => {
 
+		const timeField = dataset.timeid
 		let data = { time: [] }
 
-		const timeField = dataset.timeid
-
-		console.log('getting from ', url)
 		d3.csv(url, (err, rawData) => {
 			if (err) {
 				reject(err)
@@ -78,6 +78,7 @@ function loadDataset(site, dataset, date) {
 
 module.exports = {
 	getDataInfo,
-	loadDataset
+	loadDataset,
+	datasetUrl
 }
 

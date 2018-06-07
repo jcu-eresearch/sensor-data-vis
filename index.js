@@ -65,6 +65,7 @@ function siteSelected() {
 	const siteid = sel.value
 	current.site = sites.filter((site)=> site.id === siteid)[0]
 	clearGraphs()
+	clearDownload()
 	populateDatasetSelector(current.site.datasets)
 	clearIntervalSelector()
 	clearFieldSelector()
@@ -207,6 +208,20 @@ function clearLoading() {
 	setTimeout( ()=> fs.innerHTML = '', 1000)
 }
 // --------------------------------------------------------
+function showDownload() {
+	const lab = document.querySelector('#graph-instance .download-label')
+	const dl = document.querySelector('#graph-instance .download-link')
+	dl.href = dataImporter.datasetUrl(current.site, current.dataset, current.date)
+	domTools.removeClass(lab, 'hidden')
+}
+// --------------------------------------------------------
+function clearDownload() {
+	const lab = document.querySelector('#graph-instance .download-label')
+	const dl = document.querySelector('#graph-instance .download-link')
+	dl.href = ''
+	domTools.addClass(lab, 'hidden')
+}
+// --------------------------------------------------------
 function clearGraphs() {
 	// clear out the graph hholding div
 	graphholder.node().innerHTML = ''
@@ -214,6 +229,7 @@ function clearGraphs() {
 // --------------------------------------------------------
 function loadDataAndMakeGraphs() {
 	showLoading('loading data')
+	showDownload()
 	let dataLoadProcess = dataImporter.loadDataset(
 		current.site, current.dataset, current.date
 	).then((data)=> {

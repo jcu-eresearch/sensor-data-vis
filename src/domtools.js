@@ -7,7 +7,7 @@ function hasClass(element, className) {
 // --------------------------------------------------------
 function addClass(element, className) {
 	if (hasClass(element, className)) { return }
-	element.className = '' + element.className + ' ' + className
+	element.className = ('' + element.className + ' ' + className).trim()
 }
 // --------------------------------------------------------
 function removeClass(element, className) {
