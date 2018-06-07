@@ -130,9 +130,6 @@ function populateIntervalSelector(dataset) {
 
 	const intervals = intervalTools.listDates(start, end, dataset.period)
 
-	console.log(start, end, intervals)
-
-	//
 	// add an option for each interval
 	intervals.forEach((int)=> {
 		sel.append(new Option(intervalTools.intervalName(int, dataset.period), int))
