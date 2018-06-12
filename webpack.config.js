@@ -3,7 +3,7 @@ var webpack = require('webpack')
 var path = require('path')
 
 module.exports = {
-  entry: "./index.js",
+  entry: ['whatwg-fetch', "./index.js"],
   output: {
     path: path.join(__dirname, "dist/"),
     filename: "bundle.js"
@@ -14,7 +14,7 @@ module.exports = {
       ],
       port: 9000
   },
-  mode: 'development',
+  mode: 'production',
   module: {
     rules: [
       process.env.NODE_ENV === 'production' ? { test: /\.js$/, use: 'babel-loader' } : {},
