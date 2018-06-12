@@ -58,7 +58,7 @@ function windForward(date, interval) {
 // return a formatted string describing the interval
 // the given date falls within
 function intervalName(date, interval) {
-	const { unit } = grok(interval)
+	const unit = grok(interval).unit
 	if (unit === 'days') {
 		return moment(date).format('YYYY-MM-DD')
 	}
