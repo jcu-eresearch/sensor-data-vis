@@ -14,7 +14,7 @@ module.exports = {
       ],
       port: 9000
   },
-  mode: 'production',
+  mode: 'development',
   module: {
     rules: [
       process.env.NODE_ENV === 'production' ? { test: /\.js$/, use: 'babel-loader' } : {},
