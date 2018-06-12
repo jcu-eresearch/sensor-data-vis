@@ -41,9 +41,9 @@ function populateSiteSelector(sites) {
 	// empty the selector
 	sel.innerHTML = ''
 
-	// add a "nothing selected" option that is disabled
+	// add a "nothing selected" option
 	sel.append(new Option('select a site...', '', true))
-	sel.options.item(0).disabled = true
+
 	// add an option for each dataset
 	sites.forEach((site)=> {
 		sel.append(new Option(site.name, site.id))
@@ -53,17 +53,21 @@ function populateSiteSelector(sites) {
 	let fieldsetParent = domTools.findParent(sel, 'fieldset')
 	domTools.removeClass(fieldsetParent, 'disabled')
 
-	// if there's just one site option, click it now
-	if (sites.length === 1) {
-		domTools.selectOption(sel, sites[0].id)
-		domTools.addClass(fieldsetParent, 'hidden')
-	}
+	// // if there's just one site option, click it now
+	// if (sites.length === 1) {
+	// 	domTools.selectOption(sel, sites[0].id)
+	// 	domTools.addClass(fieldsetParent, 'hidden')
+	// }
 }
 // --------------------------------------------------------
 function siteSelected() {
 	const sel = document.querySelector('#graph-instance .site-selector')
 	const siteid = sel.value
 	current.site = sites.filter((site)=> site.id === siteid)[0]
+
+	// make sure the "select a site" thing is disabled now
+	sel.options.item(0).disabled = true
+
 	clearGraphs()
 	clearDownload()
 	populateDatasetSelector(current.site.datasets)
@@ -75,19 +79,23 @@ function populateDatasetSelector(datasets) {
 	const sel = document.querySelector('#graph-instance .set-selector')
 	sel.innerHTML = ''
 	sel.append(new Option('select a dataset...', '', true))
-	sel.options.item(0).disabled = true
+
 	// add an option for each resolution
 	datasets.forEach((ds)=> {
 		sel.append(new Option(ds.name, ds.id))
 	})
 	let fieldsetParent = domTools.findParent(sel, 'fieldset')
 	domTools.removeClass(fieldsetParent, 'disabled')
+
 }
 // --------------------------------------------------------
 function datasetSelected() {
 	const sel = document.querySelector('#graph-instance .set-selector')
 	const setid = sel.value
 	current.dataset = current.site.datasets.filter((set)=> set.id === setid)[0]
+
+	// make sure the "select a dataset" thing is disabled now
+	sel.options.item(0).disabled = true
 
 	populateIntervalSelector(current.dataset)
 	populateFieldSelector(current.dataset)
