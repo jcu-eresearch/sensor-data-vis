@@ -32,7 +32,8 @@ function hashString(str) {
     return Math.abs(hash)
 }
 
-function pickColor(str, scheme='dutch') {
+function pickColor(str, scheme) {
+	scheme = scheme | "dutch"
 	const hash = hashString(str)
 	const list = schemes[scheme]
 

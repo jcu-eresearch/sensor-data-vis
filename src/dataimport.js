@@ -6,10 +6,12 @@ const d3 = require('plotly.js').d3
 const fileLocationPrefix = './data'
 
 // --------------------------------------------------------
-function getDataInfo(dataUrl = './data/sites.json') {
-	return fetch(dataUrl)
-		.then((response) => response.json())
-		.then((data) => data.sites)
+function getDataInfo(dataUrl) {
+	dataUrl = dataUrl || './data/sites.json'
+	return ( fetch(dataUrl)
+		.then(function(response) { return response.json() }.bind(this) )
+		.then(function(data) { return data.sites }.bind(this) )
+	)
 }
 // --------------------------------------------------------
 function datasetUrl(site, dataset, date) {
@@ -41,25 +43,25 @@ function loadDataset(site, dataset, date) {
 
 	const url = datasetUrl(site, dataset, date)
 
-	let result = new Promise( (resolve, reject) => {
+	let result = new Promise( function(resolve, reject) {
 
 		const timeField = dataset.timeid
 		let data = { time: [] }
 
-		d3.csv(url, (err, rawData) => {
+		d3.csv(url, function(err, rawData) {
 			if (err) {
 				reject(err)
 				return
 			}
 
-			const fields = dataset.elements.map( (e) => e.id )
+			const fields = dataset.elements.map( function(e) {return e.id} )
 
-			fields.forEach( (f) => data[f] = [] )
+			fields.forEach( function(f) { data[f] = [] } )
 
-			rawData.forEach( (row, i) => {
+			rawData.forEach( function(row, i) {
 				data.time.push(moment(row[timeField]).toDate())
-				fields.forEach( (f) => {
-					if (nullStrings.includes(row[f])) {
+				fields.forEach( function(f) {
+					if (nullStrings.indexOf(row[f]) !== -1) {
 						data[f].push(null)
 					} else {
 						data[f].push(+row[f])
@@ -68,8 +70,8 @@ function loadDataset(site, dataset, date) {
 			})
 
 			resolve(data)
-		})
-	})
+		}.bind(this) )
+	}.bind(this) )
 
 	return result
 }

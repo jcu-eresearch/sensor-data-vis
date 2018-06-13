@@ -12,25 +12,25 @@ const d3 = plotly.d3
 
 let graphholder = d3.select('#graphholder')
 
-window.onresize = () => plotly.Plots.resize(graphholder.node())
+window.onresize = function() { plotly.Plots.resize(graphholder.node()) }
 
 // --------------------------------------------------------
 function prepareForm() {
 	// handle dataset change
 	const siteSel = document.querySelector('#graph-instance .site-selector')
-	siteSel.addEventListener('change', (e)=> {
+	siteSel.addEventListener('change', function(e) {
 		siteSelected()
 	})
 
 	// handle resolution change
 	const setSel = document.querySelector('#graph-instance .set-selector')
-	setSel.addEventListener('change', (e)=> {
+	setSel.addEventListener('change', function(e) {
 		datasetSelected()
 	})
 
 	// handle interval change
 	const intSel = document.querySelector('#graph-instance .int-selector')
-	intSel.addEventListener('change', (e)=> {
+	intSel.addEventListener('change', function(e) {
 		intSelected()
 	})
 }
@@ -42,12 +42,12 @@ function populateSiteSelector(sites) {
 	sel.innerHTML = ''
 
 	// add a "nothing selected" option
-	sel.append(new Option('select a site...', '', true))
+	sel.add(new Option('select a site...', '', true))
 
 	// add an option for each dataset
-	sites.forEach((site)=> {
-		sel.append(new Option(site.name, site.id))
-	})
+	sites.forEach(function(site) {
+		sel.add(new Option(site.name, site.id))
+	}.bind(this))
 
 	// un-disable the selector's parent fieldset
 	let fieldsetParent = domTools.findParent(sel, 'fieldset')
@@ -63,7 +63,7 @@ function populateSiteSelector(sites) {
 function siteSelected() {
 	const sel = document.querySelector('#graph-instance .site-selector')
 	const siteid = sel.value
-	current.site = sites.filter((site)=> site.id === siteid)[0]
+	current.site = sites.filter(function(site) {return site.id === siteid })[0]
 
 	// make sure the "select a site" thing is disabled now
 	sel.options.item(0).disabled = true
@@ -78,11 +78,11 @@ function siteSelected() {
 function populateDatasetSelector(datasets) {
 	const sel = document.querySelector('#graph-instance .set-selector')
 	sel.innerHTML = ''
-	sel.append(new Option('select a dataset...', '', true))
+	sel.add(new Option('select a dataset...', '', true))
 
 	// add an option for each resolution
-	datasets.forEach((ds)=> {
-		sel.append(new Option(ds.name, ds.id))
+	datasets.forEach(function(ds) {
+		sel.add(new Option(ds.name, ds.id))
 	})
 	let fieldsetParent = domTools.findParent(sel, 'fieldset')
 	domTools.removeClass(fieldsetParent, 'disabled')
@@ -92,7 +92,7 @@ function populateDatasetSelector(datasets) {
 function datasetSelected() {
 	const sel = document.querySelector('#graph-instance .set-selector')
 	const setid = sel.value
-	current.dataset = current.site.datasets.filter((set)=> set.id === setid)[0]
+	current.dataset = current.site.datasets.filter(function(set) { return set.id === setid })[0]
 
 	// make sure the "select a dataset" thing is disabled now
 	sel.options.item(0).disabled = true
@@ -128,19 +128,19 @@ function populateIntervalSelector(dataset) {
 	// Let's make a list of them.
 	//
 	const start = dataset.elements.reduce(
-		(first, elem)=> intervalTools.earliest(first, elem.start),
+		function(first, elem) { return intervalTools.earliest(first, elem.start) },
 		new Date('9999-12-31')
 	)
 	const end = dataset.elements.reduce(
-		(last, elem)=> intervalTools.latest(last, (elem.end || new Date())),
+		function(last, elem) { return intervalTools.latest(last, (elem.end || new Date())) },
 		new Date('0000-01-01')
 	)
 
 	const intervals = intervalTools.listDates(start, end, dataset.period)
 
 	// add an option for each interval
-	intervals.forEach((int)=> {
-		sel.append(new Option(intervalTools.intervalName(int, dataset.period), int))
+	intervals.forEach(function(int) {
+		sel.add(new Option(intervalTools.intervalName(int, dataset.period), int))
 	})
 	domTools.selectOption(sel, intervals[intervals.length - 1])
 
@@ -170,19 +170,19 @@ function populateFieldSelector(dataset) {
 	if (dataset.defaultgraph) {
 		current.graph = dataset.defaultgraph.sort()
 	} else {
-		current.graph = dataset.elements.map(e => e.id)
+		current.graph = dataset.elements.map(function(e) { return e.id })
 	}
 
-	dataset.elements.forEach( (f) => {
+	dataset.elements.forEach( function(f) {
 		const label = crel('label')
 		const checkbox = crel('input')
 		checkbox.type = 'checkbox'
 		checkbox.value = f.id
-		checkbox.checked = (current.graph.includes(f.id))
+		checkbox.checked = (current.graph.indexOf(f.id) !== -1)
 		label.appendChild(checkbox)
 		label.appendChild(crtx(f.name))
 		fs.appendChild(label)
-		checkbox.addEventListener('change', (e)=> {
+		checkbox.addEventListener('change', function(e) {
 			fieldSelected()
 		})
 	})
@@ -195,22 +195,23 @@ function fieldSelected() {
 
 	const fields = fs.querySelectorAll('input[type=checkbox]:checked')
 
-	current.graph = Array.from(fields).map((f)=> f.value).sort()
+	current.graph = Array.apply(0, fields).map(function(f){ return f.value }).sort()
 
 	drawGraphs()
 }
 // --------------------------------------------------------
-function showLoading(message='loading') {
+function showLoading(message) {
+	message = message || 'loading'
 	const fs = document.querySelector('#graph-instance .loading')
 	fs.innerHTML = message
 	domTools.removeClass(fs, 'clear')
-	setTimeout( ()=> fs.innerHTML = message, 1000)
+	setTimeout( function() { fs.innerHTML = message }, 1000)
 }
 // --------------------------------------------------------
 function clearLoading() {
 	const fs = document.querySelector('#graph-instance .loading')
 	domTools.addClass(fs, 'clear')
-	setTimeout( ()=> fs.innerHTML = '', 1000)
+	setTimeout( function() { fs.innerHTML = '' }, 1000)
 }
 // --------------------------------------------------------
 function showDownload() {
@@ -237,9 +238,10 @@ function loadDataAndMakeGraphs() {
 	showDownload()
 	let dataLoadProcess = dataImporter.loadDataset(
 		current.site, current.dataset, current.date
-	).then((data)=> {
+	).then(function(data) {
 		current.data = data
-	}).catch((err)=> {
+		clearLoading()
+	}).catch(function(err) {
 		const dataDesc = [
 			current.site.id,
 			current.dataset.id,
@@ -249,7 +251,8 @@ function loadDataAndMakeGraphs() {
 		alert('\nThere was a problem!\n\n'
 			+ 'Data for ' + dataDesc + ' is not available.'
 		)
-	}).finally( ()=> clearLoading() )
+		clearLoading()
+	})
 
 	current.loadProcess = dataLoadProcess
 
@@ -261,7 +264,7 @@ function drawGraphs() {
 	clearGraphs()
 
 	// can only graph when everything is loaded..
-	current.loadProcess.then( ()=> {
+	current.loadProcess.then( function() {
 
 		const ds = current.dataset // just for typing convenience
 
@@ -277,11 +280,11 @@ function drawGraphs() {
 		// keep track of the latest date we've seen
 		let latestDate = '1800-01-01'
 
-		fields.forEach( (f) => {
+		fields.forEach( function(f) {
 			latestDate = intervalTools.latest(latestDate, current.data.time[current.data.time.length - 1])
 
 			// okay now get the field
-			let field = ds.elements.find( c => c.id === f )
+			let field = ds.elements.find( function(c) { return c.id === f } )
 
 			// make sure there's a subgraph for it
 			if (!subgraphs[field.axis]) {
@@ -324,7 +327,7 @@ function drawGraphs() {
 		//
 
 		// buttons for setting the range
-		const rangeButtons = ds.intervals.map( (i)=> {
+		const rangeButtons = ds.intervals.map( function(i) {
 			return intervalTools.toRangeSelector(i)
 		})
 
@@ -365,8 +368,8 @@ function drawGraphs() {
 
 		const width = 1 / (sgIndex-1)
 		const gap = 0.066
-		Object.values(subgraphs).forEach( (g)=> {
-			g.layoutFields.forEach( (lf)=> {
+		Object.values(subgraphs).forEach( function(g) {
+			g.layoutFields.forEach( function(lf) {
 				layout[lf[0]] = lf[1]
 
 				// add the domain
@@ -463,7 +466,7 @@ prepareForm()
 clearLoading()
 
 let sites = []
-const emptyPromise = new Promise((resolve)=> resolve(false))
+const emptyPromise = new Promise(function(resolve) { resolve(false) } )
 let current = {
 	loadProcess: emptyPromise,
 
@@ -477,19 +480,20 @@ let current = {
 }
 
 showLoading('discovering datasets')
-importProcess = dataImporter.getDataInfo().then((siteList) => {
+importProcess = dataImporter.getDataInfo().then(function(siteList) {
 	// succeed
 	sites = siteList
 	populateSiteSelector(sites)
 	clearLoading()
-}, (error)=> {
+}.bind(this), function(error) {
 	// fail
 	alert('\nThere was a problem!'
 		+ '\n\nTried fetching information about datasets but could not find it.'
 		+ '\nReload this page to try again.'
+		+ error
 	)
 	clearLoading()
-})
+}.bind(this))
 
 
 

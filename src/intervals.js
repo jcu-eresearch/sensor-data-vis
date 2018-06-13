@@ -17,22 +17,22 @@ function grok(interval) {
 		'd': 'days',
 		'y': 'years'
 	}[bits[2]]
-	count = Number.parseInt(bits[1], 10)
+	count = parseInt(bits[1], 10)
 	return { unit, count }
 }
 // --------------------------------------------------------
 // earliest of two dates
-function earliest(date1=moment(), date2=moment()) {
-	const d1 = moment(date1)
-	const d2 = moment(date2)
+function earliest(date1, date2) {
+	const d1 = date1 ? moment(date1) : moment()
+	const d2 = date2 ? moment(date2) : moment()
 	if (d1.isBefore(d2)) { return d1 }
 	return d2
 }
 // --------------------------------------------------------
 // latest of two dates
-function latest(date1=moment(), date2=moment()) {
-	const d1 = moment(date1)
-	const d2 = moment(date2)
+function latest(date1, date2) {
+	const d1 = date1 ? moment(date1) : moment()
+	const d2 = date2 ? moment(date2) : moment()
 	if (d1.isBefore(d2)) { return d2 }
 	return d1
 }
@@ -69,14 +69,14 @@ function intervalName(date, interval) {
 // --------------------------------------------------------
 // return dates from -> to in steps of interval
 function listDates(from, to, interval) {
-	const { unit, count } = grok(interval)
+	const int = grok(interval)
 	let list = []
 	let timePoint = startOfInterval(from, interval)
 	let endPoint = startOfInterval(to, interval)
 
 	list.push(timePoint.format())
 	while (timePoint.isBefore(endPoint)) {
-		timePoint.add(count, unit) // increment by one interval
+		timePoint.add(int.count, int.unit) // increment by one interval
 		list.push(timePoint.format())
 	}
 	return list
@@ -85,23 +85,23 @@ function listDates(from, to, interval) {
 // return Plotly rangeselector settings for that interval
 function toRangeSelector(interval, label) {
 
-	const { unit, count } = grok(interval)
+	const int = grok(interval)
 	const name = label || niceName(interval)
 
-	if (unit === 'days') {
+	if (int.unit === 'days') {
 		return {
 			step: 'day',
 			stepmode: 'backward',
-			count: count,
+			count: int.count,
 			label: niceName(interval)
 		}
 	}
 
-	if (unit === 'years') {
+	if (int.unit === 'years') {
 		return {
 			step: 'year',
 			stepmode: 'backward',
-			count: count,
+			count: int.count,
 			label: niceName(interval)
 		}
 	}
