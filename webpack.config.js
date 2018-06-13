@@ -19,14 +19,9 @@ module.exports = {
 		rules: [
 			process.env.NODE_ENV === 'production' ? {
 				test: /\.js$/,
-				use: [
-					{
-						loader: 'babel-loader',
-					}
-				]
-			} : {
-
-			},{
+				use: ['babel-loader']
+			} : {},
+			{
 				test: /\.js$/,
 				use: [
 					'ify-loader',
