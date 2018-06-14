@@ -33,7 +33,7 @@ function hashString(str) {
 }
 
 function pickColor(str, scheme) {
-	scheme = scheme | "dutch"
+	scheme = scheme || "dutch"
 	const hash = hashString(str)
 	const list = schemes[scheme]
 

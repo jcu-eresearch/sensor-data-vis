@@ -16,6 +16,7 @@ window.onresize = function() { plotly.Plots.resize(graphholder.node()) }
 
 // --------------------------------------------------------
 function prepareForm() {
+	console.log('entering prepareForm')
 	// handle dataset change
 	const siteSel = document.querySelector('#graph-instance .site-selector')
 	siteSel.addEventListener('change', function(e) {
@@ -36,6 +37,7 @@ function prepareForm() {
 }
 // --------------------------------------------------------
 function populateSiteSelector(sites) {
+	console.log('entering populateSiteSelector')
 	const sel = document.querySelector('#graph-instance .site-selector')
 
 	// empty the selector
@@ -61,6 +63,7 @@ function populateSiteSelector(sites) {
 }
 // --------------------------------------------------------
 function siteSelected() {
+	console.log('entering siteSelected')
 	const sel = document.querySelector('#graph-instance .site-selector')
 	const siteid = sel.value
 	current.site = sites.filter(function(site) {return site.id === siteid })[0]
@@ -76,6 +79,7 @@ function siteSelected() {
 }
 // --------------------------------------------------------
 function populateDatasetSelector(datasets) {
+	console.log('entering populateDatasetSelector')
 	const sel = document.querySelector('#graph-instance .set-selector')
 	sel.innerHTML = ''
 	sel.add(new Option('select a dataset...', '', true))
@@ -90,6 +94,7 @@ function populateDatasetSelector(datasets) {
 }
 // --------------------------------------------------------
 function datasetSelected() {
+	console.log('entering datasetSelected')
 	const sel = document.querySelector('#graph-instance .set-selector')
 	const setid = sel.value
 	current.dataset = current.site.datasets.filter(function(set) { return set.id === setid })[0]
@@ -102,6 +107,7 @@ function datasetSelected() {
 }
 // --------------------------------------------------------
 function clearIntervalSelector(dataset) {
+	console.log('entering clearIntervalSelector')
 	const lab = document.querySelector('#graph-instance .int-label')
 	const sel = document.querySelector('#graph-instance .int-selector')
 	sel.innerHTML = ''
@@ -109,6 +115,7 @@ function clearIntervalSelector(dataset) {
 }
 // --------------------------------------------------------
 function populateIntervalSelector(dataset) {
+	console.log('entering populateIntervalSelector')
 
 	const lab = document.querySelector('#graph-instance .int-label')
 	const sel = document.querySelector('#graph-instance .int-selector')
@@ -148,6 +155,7 @@ function populateIntervalSelector(dataset) {
 }
 // --------------------------------------------------------
 function intSelected() {
+	console.log('entering intSelected')
 	const sel = document.querySelector('#graph-instance .int-selector')
 	current.date = sel.value
 
@@ -155,12 +163,14 @@ function intSelected() {
 }
 // --------------------------------------------------------
 function clearFieldSelector() {
+	console.log('entering clearFieldSelector')
 	const fs = document.querySelector('#graph-instance .field-selectors')
 	fs.innerHTML = ''
 	domTools.addClass(fs, 'hidden')
 }
 // --------------------------------------------------------
 function populateFieldSelector(dataset) {
+	console.log('entering populateFieldSelector')
 	const fs = document.querySelector('#graph-instance .field-selectors')
 	fs.innerHTML = ''
 
@@ -191,6 +201,7 @@ function populateFieldSelector(dataset) {
 }
 // --------------------------------------------------------
 function fieldSelected() {
+	console.log('entering fieldSelected')
 	const fs = document.querySelector('#graph-instance .field-selectors')
 
 	const fields = fs.querySelectorAll('input[type=checkbox]:checked')
@@ -201,6 +212,7 @@ function fieldSelected() {
 }
 // --------------------------------------------------------
 function showLoading(message) {
+	console.log('entering showLoading')
 	message = message || 'loading'
 	const fs = document.querySelector('#graph-instance .loading')
 	fs.innerHTML = message
@@ -209,12 +221,14 @@ function showLoading(message) {
 }
 // --------------------------------------------------------
 function clearLoading() {
+	console.log('entering clearLoading')
 	const fs = document.querySelector('#graph-instance .loading')
 	domTools.addClass(fs, 'clear')
 	setTimeout( function() { fs.innerHTML = '' }, 1000)
 }
 // --------------------------------------------------------
 function showDownload() {
+	console.log('entering showDownload')
 	const lab = document.querySelector('#graph-instance .download-label')
 	const dl = document.querySelector('#graph-instance .download-link')
 	dl.href = dataImporter.datasetUrl(current.site, current.dataset, current.date)
@@ -222,6 +236,7 @@ function showDownload() {
 }
 // --------------------------------------------------------
 function clearDownload() {
+	console.log('entering clearDownload')
 	const lab = document.querySelector('#graph-instance .download-label')
 	const dl = document.querySelector('#graph-instance .download-link')
 	dl.href = ''
@@ -229,11 +244,13 @@ function clearDownload() {
 }
 // --------------------------------------------------------
 function clearGraphs() {
+	console.log('entering clearGraphs')
 	// clear out the graph hholding div
 	graphholder.node().innerHTML = ''
 }
 // --------------------------------------------------------
 function loadDataAndMakeGraphs() {
+	console.log('entering loadDataAndMakeGraphs')
 	showLoading('loading data')
 	showDownload()
 	let dataLoadProcess = dataImporter.loadDataset(
@@ -260,6 +277,7 @@ function loadDataAndMakeGraphs() {
 }
 // --------------------------------------------------------
 function drawGraphs() {
+	console.log('entering drawGraphs')
 
 	clearGraphs()
 
@@ -280,11 +298,17 @@ function drawGraphs() {
 		// keep track of the latest date we've seen
 		let latestDate = '1800-01-01'
 
+		console.log("fields")
+		console.log(fields)
+
+		console.log("current.data")
+		console.log(current.data)
+
 		fields.forEach( function(f) {
 			latestDate = intervalTools.latest(latestDate, current.data.time[current.data.time.length - 1])
 
 			// okay now get the field
-			let field = ds.elements.find( function(c) { return c.id === f } )
+			let field = ds.elements.find( function(c) { return c.id === f }.bind(this) )
 
 			// make sure there's a subgraph for it
 			if (!subgraphs[field.axis]) {
@@ -319,7 +343,7 @@ function drawGraphs() {
 				xaxis: 'x',
 				yaxis: 'y' + subgraphs[field.axis].index
 			})
-		})
+		}.bind(this))
 
 		//
 		// now we've prepped data as necessary.. get the
@@ -402,6 +426,7 @@ function drawGraphs() {
 }
 // --------------------------------------------------------
 function makeStackOfGraphs() {
+	console.log('entering makeStackOfGraphs')
 
 	// clearGraphs()
 
@@ -489,7 +514,7 @@ importProcess = dataImporter.getDataInfo().then(function(siteList) {
 	// fail
 	alert('\nThere was a problem!'
 		+ '\n\nTried fetching information about datasets but could not find it.'
-		+ '\nReload this page to try again.'
+		+ '\nReload this page to try again.\n\n'
 		+ error
 	)
 	clearLoading()
