@@ -66,8 +66,8 @@ function loadDataset(site, dataset, date) {
 					} else {
 						data[f].push(+row[f])
 					}
-				})
-			})
+				}.bind(this))
+			}.bind(this))
 
 			resolve(data)
 		}.bind(this) )

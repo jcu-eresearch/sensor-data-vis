@@ -6,7 +6,7 @@ const colors = require('./src/colors')
 
 window.colors = colors
 
-const plotly = require('plotly.js')
+const plotly = require('plotly.js/dist/plotly')
 
 const d3 = plotly.d3
 
