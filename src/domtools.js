@@ -22,7 +22,15 @@ function selectOption(select, option) {
 	option = select.querySelector('[value="' + option + '"]')
 	option.selected = true
 	// trigger select change event
-	let event = new Event('change')
+
+	let Event
+	if (typeof(Event) === 'function') {
+		event = new Event('change')
+	} else {
+		event = document.createEvent('Event')
+		event.initEvent('change', true, true)
+	}
+
 	select.dispatchEvent(event)
 }
 // --------------------------------------------------------

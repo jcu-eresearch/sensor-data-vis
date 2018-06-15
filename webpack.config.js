@@ -14,7 +14,7 @@ module.exports = {
 			],
 			port: 9000
 	},
-	mode: 'development',
+	mode: 'production',
 	module: {
 		rules: [
 			// process.env.NODE_ENV === 'production' ? {
@@ -26,7 +26,7 @@ module.exports = {
 				use: [
 					'ify-loader',
 					'transform-loader?plotly.js/tasks/util/compress_attributes.js',
-					]
+				]
 			},
 		]
 	}

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang=en>
+	<head>
+		<meta charset=utf-8>
+		<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+	    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<title>COTR Viz</title>
+		<style>
+			:root {
+				font-family: sans-serif;
+				background: #f4f4e4;
+				background: #ddeeff;
+				background: #eef8ff;
+				padding: 0 1em;
+			}
+			form {
+				display: flex;
+				justify-content: flex-start;
+				flex-wrap: wrap;
+			}
+			fieldset {
+				border-radius: 3px;
+				background-color: #fff;
+				border: none;
+				margin: 1em 1em 1em 0;
+				padding: 0.5em 1em;
+				text-align: center;
+			}
+			fieldset label {
+				float: left;
+				clear: left;
+			}
+			fieldset label.int-label, fieldset label.download-label {
+				margin: 0.5em 0 0;
+				float: right;
+				clear: both;
+			}
+			fieldset .download-link {
+				opacity: 0.5;
+				text-decoration: none;
+				margin: 0 1em;
+				transition: 0.5s;
+			}
+			fieldset .download-link:hover {
+				opacity: 1;
+				text-decoration: underline;
+			}
+			fieldset.disabled {
+				opacity: 0.5;
+			}
+			.hidden {
+				display: none;
+			}
+			select, input {
+				margin: 0 1em;
+				font-size: inherit;
+			}
+			#graphholder {
+				border-radius: 3px;
+				overflow: hidden;
+				width: 100%;
+				min-height: 500px;
+				height: 75vh;
+			}
+			fieldset.clear { opacity: 0; }
+			fieldset.loading {
+				min-width: 5em;
+				text-align: left;
+				height: 1.5em;
+				line-height: 1.5em;
+				padding-left: 2.5em;
+				position: relative;
+				transition: 1s;
+			}
+			fieldset.loading:before, fieldset.loading:after {
+				content: '';
+				width: 1.25em; height: 1.25em;
+				border-radius: 50%;
+				background-color: #6fc;
+				opacity: 0.6;
+				position: absolute;
+				top: calc(50% - 0.675em); left: 0.7em;
+
+				-webkit-animation: sk-bounce 1.6s infinite ease-in-out;
+				animation: sk-bounce 1.6s infinite ease-in-out;
+			}
+
+			fieldset.loading:after {
+				background-color: #9cf;
+				-webkit-animation-delay: -0.6s;
+				animation-delay: -0.6s;
+			}
+
+			@-webkit-keyframes sk-bounce {
+				0%, 100% { -webkit-transform: scale(0.0) }
+				50% { -webkit-transform: scale(1.0) }
+			}
+
+			@keyframes sk-bounce {
+				0%, 100% {
+					transform: scale(0.0);
+					-webkit-transform: scale(0.0);
+				} 50% {
+					transform: scale(1.0);
+					-webkit-transform: scale(1.0);
+				}
+			}
+
+		</style>
+
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+	</head>
+	<body>
+
+			<div id="graphholder">&nbsp;</div>
+
+		<script>
+
+
+
+var trace1 = {
+  x: [1, 2, 3, 4],
+  y: [10, 15, 13, 17],
+  mode: 'markers',
+  type: 'scatter'
+};
+
+var trace2 = {
+  x: [2, 3, 4, 5],
+  y: [16, 5, 11, 9],
+  mode: 'lines',
+  type: 'scatter'
+};
+
+var trace3 = {
+  x: [1, 2, 3, 4],
+  y: [12, 9, 15, 12],
+  mode: 'lines+markers',
+  type: 'scatter'
+};
+
+var data = [trace1, trace2, trace3];
+
+Plotly.newPlot('graphholder', data);
+
+
+
+		</script>
+	</body>
+</html>
