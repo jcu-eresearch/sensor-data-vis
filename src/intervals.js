@@ -46,7 +46,7 @@ function windBack(date, interval) {
 // return an new date at the start of the given date's interval
 function startOfInterval(date, interval) {
 	const datesInterval = intervalName(date, interval)
-	return moment(datesInterval)
+	return moment(datesInterval).add(1, 'd')
 }
 // --------------------------------------------------------
 // return a date which is /interval/ before the given date
@@ -67,17 +67,20 @@ function intervalName(date, interval) {
 	}
 }
 // --------------------------------------------------------
-// return dates from -> to in steps of interval
-function listDates(from, to, interval) {
+// return dates fromDate -> toDate in steps of interval
+function listDates(fromDate, toDate, interval) {
 	const int = grok(interval)
 	let list = []
-	let timePoint = startOfInterval(from, interval)
-	let endPoint = startOfInterval(to, interval)
+	let timePoint = startOfInterval(fromDate, interval)
+	let endPoint = startOfInterval(toDate, interval)
 
 	list.push(timePoint.format())
 	while (timePoint.isBefore(endPoint)) {
 		timePoint.add(int.count, int.unit) // increment by one interval
 		list.push(timePoint.format())
+	}
+	if (intervalName(toDate, interval) !== intervalName(list[list.length - 1], interval)) {
+		list.push(endPoint.format())
 	}
 	return list
 }

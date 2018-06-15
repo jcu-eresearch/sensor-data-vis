@@ -23,7 +23,7 @@ function selectOption(select, option) {
 	option.selected = true
 	// trigger select change event
 
-	let Event
+	let event
 	if (typeof(Event) === 'function') {
 		event = new Event('change')
 	} else {

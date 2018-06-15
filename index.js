@@ -4,20 +4,16 @@ const intervalTools = require('./src/intervals')
 const dataImporter = require('./src/dataimport')
 const colors = require('./src/colors')
 
-window.colors = colors
-
 const plotly = require('plotly.js/dist/plotly')
-
 const d3 = plotly.d3
 
 let graphholder = d3.select('#graphholder')
-
 window.onresize = function() { plotly.Plots.resize(graphholder.node()) }
 
 // --------------------------------------------------------
 function debugMsg(msg, level) {
 	level = level || 3
-	if (level > 1) {
+	if (level > 2) {
 		console.log('DEBUG' + level + ': ' + msg)
 	}
 }
@@ -435,67 +431,6 @@ function drawGraphs() {
 			options
 		)
 	}.bind(this))
-
-}
-// --------------------------------------------------------
-function makeStackOfGraphs() {
-	debugMsg('entering makeStackOfGraphs', 2)
-
-	// clearGraphs()
-
-	// // can only graph when everything is loaded..
-	// current.loadProcess.then( ()=> {
-
-	// 	// graph all fields..
-	// 	let fields = current.dataset.elements.map( e => e.id )
-	// 	// ..unless they specify a defaultgraph field list
-	// 	if ('defaultgraph' in current.dataset) {
-	// 		console.log('default supplied...')
-	// 		fields = current.dataset.defaultgraph
-	// 	}
-	// 	console.log(fields)
-
-	// 	let graphs = {}
-
-	// 	// turn the field list into a graph list, which
-	// 	// might mean several fields get drawn into the same
-	// 	// graph (if their axes are the same)
-	// 	fields.forEach( (f) => {
-	// 		let field = current.dataset.elements.find( c => c.id === f )
-	// 		if (!graphs[field.axis]) {
-	// 			let latestDate = current.data.time[current.data.time.length - 1]
-	// 			graphs[field.axis] = {
-	// 				data: [],
-	// 				layout: {
-	// 					xaxis: {
-	// 						range: [
-	// 							intervalTools.windBack(latestDate, current.interval),
-	// 							latestDate
-	// 						],
-	// 						rangeslider: { autorange: true },
-	// 						type: 'date'
-	// 					},
-	// 					yaxis: { title: field.axis },
-	// 					margin: { t:50, b:50 }
-	// 				}
-	// 			}
-	// 		}
-	// 		graphs[field.axis].data.push({
-	// 			x: current.data.time,
-	// 			y: current.data[f],
-	// 			mode: 'lines',
-	// 			line: { color: colors.pickColor(field.id) }
-	// 		})
-	// 	})
-
-	// 	Object.values(graphs).forEach( (g)=> {
-	// 		// new div for each graph
-	// 		let graphDiv = document.createElement('div')
-	// 		graphholder.node().appendChild(graphDiv)
-	// 		plotly.newPlot(graphDiv, g.data, g.layout, {displayModeBar: false})
-	// 	})
-
-	// })
 
 }
 // --------------------------------------------------------

@@ -4,6 +4,9 @@
 		<meta charset=utf-8>
 		<meta http-equiv="X-UA-Compatible" content="IE=Edge">
 	    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<!--[if IE]>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/bluebird/3.3.4/bluebird.min.js"></script>
+		<![endif]-->
 		<title>COTR Viz</title>
 		<style>
 			:root {
@@ -110,6 +113,11 @@
 	</head>
 	<body>
 
+		<noscript>
+			This site uses web browser features not enabled in your web browser.
+			Please enable JavaScript to continue.
+		</noscript>
+
 		<div id="graph-instance">
 
 			<form class="controls">
@@ -141,6 +149,16 @@
  					loading
  				</fieldset>
 			</form>
+
+			<script>
+				if (typeof(Event) !== 'function') {
+					document.write('<div style="font-size: 80%; margin: 0.1em 0 0.5em">'
+					+ '	This outdated browser will draw graphs slower that its'
+					+ '	competitors.'
+					+ '	<a href="//outdatedbrowser.com">Upgrade</a> if possible.'
+					+ '</div>')
+				}
+			</script>
 
 			<div id="graphholder">&nbsp;</div>
 
