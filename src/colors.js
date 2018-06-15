@@ -33,12 +33,10 @@ function hashString(str) {
 }
 
 function pickColor(str, scheme) {
-	console.log('picking a colour')
 	scheme = scheme || "dutch"
 	const hash = hashString(str)
 	const list = schemes[scheme]
 
-	console.log('returning a colour')
 	return(list[hash % list.length])
 }
 

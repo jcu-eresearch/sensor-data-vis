@@ -305,21 +305,9 @@ function drawGraphs() {
 		// keep track of the latest date we've seen
 		let latestDate = '1800-01-01'
 
-		console.log('before fields')
-
 		fields.forEach( function(f) {
 
-			console.log('starting field loop')
-
 			latestDate = intervalTools.latest(latestDate, current.data.time[current.data.time.length - 1])
-
-			console.log('field loop A1')
-
-			console.log('ds')
-			console.log(ds)
-
-			console.log('ds.elements')
-			console.log(ds.elements)
 
 			// okay now get the field
 			let field = null
@@ -330,41 +318,22 @@ function drawGraphs() {
 			}.bind(this))
 			// let field = ds.elements.find( function(c) { return c.id === f }.bind(this) )
 
-			console.log('field loop A2')
-
-			console.log('field.axis')
-			console.log(field.axis)
-
-			console.log('subgraphs[field.axis]')
-			console.log(subgraphs[field.axis])
-
 			// make sure there's a subgraph for it
 			if (!subgraphs[field.axis]) {
-
-				console.log('field loop A3')
-
 				let sg = { index: sgIndex, layoutFields: [] }
 				if (sgIndex > 1) {
 					sg.layoutFields.push(['xaxis' + sgIndex, { anchor: 'y' + sgIndex }])
 				}
-
-				console.log('field loop A4')
-
 				sg.layoutFields.push(['yaxis' + sgIndex, {
 					showspikes: true,
 					spikethickness: 1,
 					spikedash: 'dot',
 					title: field.axis.replace(' (', '<br>(')
 				}])
-
-				console.log('field loop A5')
-
 				// sg.layoutFields.push(['title', field.axis])
 				subgraphs[field.axis] = sg
 				sgIndex += 1
 			}
-
-			console.log('field loop B')
 
 			// now describe the trace for this field
 			traces.push({
@@ -383,16 +352,12 @@ function drawGraphs() {
 				yaxis: 'y' + subgraphs[field.axis].index
 			})
 
-			console.log('field loop C')
-
 		}.bind(this))
 
 		//
 		// now we've prepped data as necessary.. get the
 		// layout stuff ready.
 		//
-
-		console.log('after fields')
 
 		// buttons for setting the range
 		const rangeButtons = ds.intervals.map( function(i) {
@@ -403,8 +368,6 @@ function drawGraphs() {
 			intervalTools.windBack(latestDate, ds.intervals[0]),
 			latestDate.toDate()
 		]
-
-		console.log('before layout')
 
 		let layout = {
 			legend: {
@@ -437,43 +400,24 @@ function drawGraphs() {
 			margin: { t:40, b:40 }
 		}
 
-		console.log('after layout')
-
-		console.log('sgIndex')
-		console.log(sgIndex)
-		console.log('subgraphs')
-		console.log(subgraphs)
-		console.log('subgraphs.keys')
-		console.log(subgraphs.keys)
-
 		const width = 1 / (sgIndex-1)
 		const gap = 0.066
 		// Object.values(subgraphs).forEach( function(g) {
 		for (k in subgraphs) {
-			console.log('sg A')
 			const g = subgraphs[k]
-			console.log('sg B')
 			g.layoutFields.forEach( function(lf) {
-				console.log('sg C')
 				layout[lf[0]] = lf[1]
 
-				console.log('sg D')
 				// add the domain
 				// if (lf[0].startsWith('yaxis')) {
 				if (lf[0].substr(0,5) === 'yaxis') {
-					console.log('sg E')
 					layout[lf[0]].domain = [
 						(g.index-1) * width + gap,
 						g.index * width
 					]
-					console.log('sg F')
 				}
-				console.log('sg G')
 			}.bind(this))
-			console.log('sg H')
 		}
-
-		console.log('after subgraphs')
 
 		const options = {
 			displaylogo: false,
@@ -483,18 +427,6 @@ function drawGraphs() {
 				'toggleSpikelines'
 			]
 		}
-
-		console.log("node")
-		console.log(graphholder.node())
-
-		console.log("traces")
-		console.log(traces)
-
-		console.log("layout")
-		console.log(layout)
-
-		console.log("options")
-		console.log(options)
 
 		plotly.newPlot(
 			graphholder.node(),
