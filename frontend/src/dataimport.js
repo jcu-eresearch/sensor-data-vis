@@ -3,11 +3,25 @@ const intervals = require('./intervals')
 const moment = require('moment')
 const d3 = require('plotly.js').d3
 
-const fileLocationPrefix = './data'
+// --------------------------------------------------------
+
+const dataDescriptorUrl = './data/sites.json'
+const nowSetupUrl = './data/now.json'
+
+// const dataLocationPrefix = '//cotr.jcu.io/public'
+const dataLocationPrefix = './data'
 
 // --------------------------------------------------------
+function getNowInfo(nowUrl) {
+	nowUrl = nowUrl || nowSetupUrl
+	return ( fetch(nowUrl)
+		.then(function(response) { return response.json() }.bind(this) )
+		.then(function(data) { return data.now }.bind(this) )
+	)
+}
+// --------------------------------------------------------
 function getDataInfo(dataUrl) {
-	dataUrl = dataUrl || './data/sites.json'
+	dataUrl = dataUrl || dataDescriptorUrl
 	return ( fetch(dataUrl)
 		.then(function(response) { return response.json() }.bind(this) )
 		.then(function(data) { return data.sites }.bind(this) )
@@ -29,9 +43,9 @@ function datasetUrl(site, dataset, date) {
 	const periodSuffix = date.format(periodFormat)
 
 	return [
-		fileLocationPrefix,
+		dataLocationPrefix,
 		site.id,
-		dataset.id + '-' + periodSuffix
+		dataset.id + '_' + periodSuffix
 	].join('/') + '.csv'
 }
 // --------------------------------------------------------
@@ -80,6 +94,7 @@ function loadDataset(site, dataset, date) {
 // --------------------------------------------------------
 
 module.exports = {
+	getNowInfo,
 	getDataInfo,
 	loadDataset,
 	datasetUrl

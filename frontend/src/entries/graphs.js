@@ -1,8 +1,8 @@
 
-const domTools = require('./src/domtools')
-const intervalTools = require('./src/intervals')
-const dataImporter = require('./src/dataimport')
-const colors = require('./src/colors')
+const domTools = require('../domtools')
+const intervalTools = require('../intervals')
+const dataImporter = require('../dataimport')
+const colors = require('../colors')
 
 const plotly = require('plotly.js/dist/plotly')
 const d3 = plotly.d3
@@ -266,7 +266,7 @@ function loadDataAndMakeGraphs() {
 			current.site.id,
 			current.dataset.id,
 			intervalTools.intervalName(current.date, current.dataset.period)
-		].join(' / ')
+		].join(' :: ')
 		current.data = null
 		alert('\nThere was a problem!\n\n'
 			+ 'Data for ' + dataDesc + ' is not available.'

@@ -3,10 +3,13 @@ var webpack = require('webpack')
 var path = require('path')
 
 module.exports = {
-	entry: ['whatwg-fetch', "./index.js"],
+	entry: {
+		graphs: ['whatwg-fetch', "./src/entries/graphs.js"],
+		now: ['whatwg-fetch', "./src/entries/now.js"]
+	},
 	output: {
 		path: path.join(__dirname, "dist/"),
-		filename: "bundle.js"
+		filename: "[name]bundle.js"
 	},
 	devServer: {
 			contentBase: [
@@ -14,7 +17,7 @@ module.exports = {
 			],
 			port: 9000
 	},
-	mode: 'production',
+	mode: 'development',
 	module: {
 		rules: [
 			// process.env.NODE_ENV === 'production' ? {

@@ -9,23 +9,70 @@
 		<![endif]-->
 		<title>COTR Viz</title>
 		<style>
+			.clearfix:after {
+				content: "";
+				display: block;
+				clear: both;
+			}
 			:root {
 				font-family: sans-serif;
 				background: #f4f4e4;
 				background: #ddeeff;
 				background: #eef8ff;
 				padding: 0 1em;
+				font-size: 16px;
+				font-size: calc(10px + 0.55vw);
+			}
+			#blocksholder {
+				width: 100%;
+			}
+			#blocksholder .block, form {
+				box-sizing: border-box;
+				max-width: 50rem;
+				margin: 0 auto;
+				padding: 0;
+			}
+			#blocksholder .blockinner {
+				position: relative;
+				box-sizing: border-box;
+				min-height: 8rem;
+				width: 100%;
+				margin: 0;
+				padding: 0 0 0 50%;
+				text-align: center;
+				line-height: 1;
+				font-size: 1rem;
+			}
+			.blockinner .preamble {
+				font-size: 0.8rem;
+				position: absolute;
+				top: 0.75rem;
+				left: 50%;
+				right: 0;
+			}
+			.blockinner .value {
+				padding-top: 2.25rem;
+				font-size: 2.5rem;
+				font-weight: 100;
+				opacity: 0.8;
+				/*letter-spacing: -0.05em;*/
+			}
+			.blockinner .units {
+			}
+			.blockinner .postamble {
+				font-size: 0.8rem;
+				position: absolute;
+				bottom: 0.75rem;
+				left: 50%;
+				right: 0;
 			}
 			form {
-				display: flex;
-				justify-content: flex-start;
-				flex-wrap: wrap;
+				padding: 0;
 			}
 			fieldset {
-				border-radius: 3px;
-				background-color: #fff;
+				font-size: 66%;
 				border: none;
-				margin: 1em 1em 1em 0;
+				margin: 0;
 				padding: 0.5em 1em;
 				text-align: center;
 			}
@@ -33,37 +80,8 @@
 				float: left;
 				clear: left;
 			}
-			fieldset label.int-label, fieldset label.download-label {
-				margin: 0.5em 0 0;
-				float: right;
-				clear: both;
-			}
-			fieldset .download-link {
-				opacity: 0.5;
-				text-decoration: none;
-				margin: 0 1em;
-				transition: 0.5s;
-			}
-			fieldset .download-link:hover {
-				opacity: 1;
-				text-decoration: underline;
-			}
-			fieldset.disabled {
-				opacity: 0.5;
-			}
 			.hidden {
 				display: none;
-			}
-			select, input {
-				margin: 0 1em;
-				font-size: inherit;
-			}
-			#graphholder {
-				border-radius: 3px;
-				overflow: hidden;
-				width: 100%;
-				min-height: 500px;
-				height: 75vh;
 			}
 			fieldset.clear { opacity: 0; }
 			fieldset.loading {
@@ -118,33 +136,9 @@
 			Please enable JavaScript to continue.
 		</noscript>
 
-		<div id="graph-instance">
+		<div id="blocks-instance">
 
 			<form class="controls">
-				<fieldset class="disabled">
-					<label>Site
-						<select class="site-selector">
-							<option disabled selected>loading...</option>
-						</select>
-					</label>
-				</fieldset>
-				<fieldset class="disabled">
-					<label>Data set
-						<select class="set-selector">
-							<option disabled selected>waiting...</option>
-						</select>
-					</label>
-					<label class="int-label hidden">for
-						<select class="int-selector">
-							<option disabled selected>waiting...</option>
-						</select>
-					</label>
-					<label class="download-label hidden">
-						<a class="download-link" href="">download this dataset</a>
-					</label>
-				</fieldset>
- 				<fieldset class="hidden field-selectors">
- 				</fieldset>
  				<fieldset class="loading">
  					loading
  				</fieldset>
@@ -153,17 +147,16 @@
 			<script>
 				if (typeof(Event) !== 'function') {
 					document.write('<div style="font-size: 80%; margin: 0.1em 0 0.5em">'
-					+ '	This outdated browser will draw graphs slower that its'
-					+ '	competitors.'
+					+ '	This outdated browser is noticeably slower that its competitors.'
 					+ '	<a href="http://outdatedbrowser.com">Upgrade</a> if possible.'
 					+ '</div>')
 				}
 			</script>
 
-			<div id="graphholder">&nbsp;</div>
+			<div id="blocksholder"></div>
 
 		</div>
 
-		<script src="graphsbundle.js"></script>
+		<script src="nowbundle.js"></script>
 	</body>
 </html>

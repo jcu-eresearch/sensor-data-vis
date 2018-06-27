@@ -1,0 +1,30 @@
+{
+	"now": {
+		"site": "darwin",
+		"dataset": "rawdata",
+		"display": [
+			{
+				"element": "par",
+				"preamble": "the amount of light that is available for photosynthesis",
+				"units": "µmol/m²/s",
+				"postamble": "PAR postamble",
+				"textcolor": "#000",
+				"image": "http://fillmurray.com/200/300",
+				"background": "#ffc"
+			},{
+				"element": "temp",
+				"preamble": "tmp preamble",
+				"units": "°C",
+				"postamble": "tmp postamble",
+				"textcolor": "#933",
+				"image": "http://fillmurray.com/600/300",
+				"background": ["#9ef", "#6ac"]
+			},{
+				"element": "turbidity",
+				"units": "FTU",
+				"textcolor": "#420",
+				"background": ["#6ac", "#653"]
+			}
+		]
+	}
+}
