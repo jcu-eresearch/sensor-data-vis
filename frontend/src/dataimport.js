@@ -16,7 +16,7 @@ function getNowInfo(nowUrl) {
 	nowUrl = nowUrl || nowSetupUrl
 	return ( fetch(nowUrl)
 		.then(function(response) { return response.json() }.bind(this) )
-		.then(function(data) { return data.now }.bind(this) )
+		.then(function(data) { return data.layouts }.bind(this) )
 	)
 }
 // --------------------------------------------------------

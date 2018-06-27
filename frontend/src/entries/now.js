@@ -28,6 +28,14 @@ function clearLoading() {
 	setTimeout( function() { fs.innerHTML = '' }, 1000)
 }
 // --------------------------------------------------------
+function pickLayout(layouts) {
+	const layoutId = domTools.queryVar('layout')
+	for (let i=0; i < layouts.length; i++) {
+		if (layouts[i].id === layoutId) { return layouts[i] }
+	}
+	return layouts[0]
+}
+// --------------------------------------------------------
 function loadSiteInfo() {
 	debugMsg('entering loadSiteInfo', 2)
 	const importProcess = dataImporter.getDataInfo().then(function(siteList) {
@@ -37,11 +45,11 @@ function loadSiteInfo() {
 		// is the nominated site in the site list?
 		let site = null
 		siteList.forEach(function(s) {
-			if (s.id === current.setup.site) { site = s }
+			if (s.id === current.layout.site) { site = s }
 		}.bind(this))
 		if (!site) {
 			alert('\nThere was a problem!\n\nTried fetching information about site "'
-				+ current.setup.site
+				+ current.layout.site
 				+ '" but could not find it.\nReload this page to try again.'
 			)
 			return
@@ -51,11 +59,11 @@ function loadSiteInfo() {
 		// is the nominated dataset in that site's dataset?
 		let ds = null
 		current.site.datasets.forEach(function(d) {
-			if (d.id === current.setup.dataset) { ds = d }
+			if (d.id === current.layout.dataset) { ds = d }
 		}.bind(this))
 		if (!ds) {
 			alert('\nThere was a problem!\n\nTried fetching information about dataset "'
-				+ current.setup.site + ' :: ' + current.setup.dataset
+				+ current.layout.site + ' :: ' + current.layout.dataset
 				+ '" but could not find it.\nReload this page to try again.'
 			)
 			return
@@ -139,10 +147,14 @@ function makeOneBlock(blockInfo) {
 			break
 		}
 	}
-
 	pre.innerHTML = blockInfo.preamble || ''
 	units.innerHTML = blockInfo.units || ''
 	post.innerHTML = blockInfo.postamble || ''
+
+	if (Math.random() < 0.9) {
+		val.innerHTML = '--'
+		units.innerHTML = 'no recent reading'
+	}
 
 	b.style.color = blockInfo.textcolor || '#000'
 
@@ -179,7 +191,7 @@ function makeOneBlock(blockInfo) {
 function drawBlocks() {
 	debugMsg('entering drawBlocks', 2)
 
-	current.setup.display.forEach( function(block) {
+	current.layout.display.forEach( function(block) {
 		console.log(block.element)
 		let blockElem = makeOneBlock(block)
 		document.querySelector('#blocksholder').appendChild(blockElem)
@@ -196,7 +208,7 @@ const emptyPromise = new Promise(function(resolve) { resolve(false) } )
 let current = {
 	loadProcess: emptyPromise,
 
-	setup: null,
+	layout: null,
 
 	site: null,
 	dataset: null,
@@ -207,17 +219,16 @@ let current = {
 	data: null
 }
 
-showLoading('reading setup instructions')
-const importProcess = dataImporter.getNowInfo().then(function(setup) {
+showLoading('reading layout instructions')
+const importProcess = dataImporter.getNowInfo().then(function(layouts) {
 	// succeed
-	current.setup = setup
-	console.log(setup)
+	current.layout = pickLayout(layouts)
 	clearLoading()
 	loadSiteInfo()
 }.bind(this), function(error) {
 	// fail
 	alert('\nThere was a problem!'
-		+ '\n\nTried fetching setup information but could not find it.'
+		+ '\n\nTried fetching layout information but could not find it.'
 		+ '\nReload this page to try again.\n\n'
 		+ error
 	)

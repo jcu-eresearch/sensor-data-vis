@@ -12,6 +12,8 @@
 					"period": "all",
 					"intervals": ["1y", "90d", "30d"],
 					"timeid": "date_time",
+					"metadata": "some url",
+					"accreditation": "credits for the data",
 					"defaultgraph": [
 						"temp-min",
 						"temp-max",

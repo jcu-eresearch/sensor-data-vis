@@ -1,6 +1,18 @@
 
 
 // --------------------------------------------------------
+function queryVar(varName, defaultValue) {
+	const query = window.location.search.substring(1)
+	const vars = query.split("&")
+	let pair = null
+	for (let i=0; i < vars.length; i++) {
+		pair = vars[i].split("=")
+		if (pair[0] === varName) { return pair[1] }
+	}
+	if (defaultValue) { return defaultValue }
+	return false
+}
+// --------------------------------------------------------
 function hasClass(element, className) {
 	return (element.className.indexOf(className) != -1)
 }
@@ -45,6 +57,7 @@ function findParent(element, parentTag) {
 // --------------------------------------------------------
 // --------------------------------------------------------
 module.exports = {
+	queryVar,
 	hasClass, addClass, removeClass,
 	selectOption,
 	findParent
