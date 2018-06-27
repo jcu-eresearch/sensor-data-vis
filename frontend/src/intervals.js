@@ -1,6 +1,7 @@
 
 const moment = require('moment')
 
+// TODO: delete this line
 window.moment = moment
 
 // --------------------------------------------------------
@@ -23,6 +24,12 @@ function grok(interval) {
 	}[bits[2]]
 	count = parseInt(bits[1], 10)
 	return { unit, count }
+}
+// --------------------------------------------------------
+function secondsIn(interval) {
+	const {unit, count} = grok(interval)
+	const duration = moment.duration(count, unit)
+	return duration.asSeconds()
 }
 // --------------------------------------------------------
 // is date1 before date2?
@@ -137,6 +144,7 @@ function toRangeSelector(interval, label) {
 
 module.exports = {
 	niceName,
+	secondsIn,
 	windBack, windForward,
 	isBefore, isAfter,
 	earliest, latest,

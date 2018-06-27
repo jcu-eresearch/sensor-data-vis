@@ -97,6 +97,16 @@ function loadDataAndMakeBlocks() {
 		current.data = data
 		clearLoading()
 		drawBlocks()
+
+		// set up the data refresh
+		const refresh = current.layout.refresh || '5min'
+		console.log(intervalTools.secondsIn(refresh) * 1000)
+
+		setTimeout(
+			function() { loadDataAndMakeBlocks() }.bind(this),
+			intervalTools.secondsIn(refresh) * 1000
+		)
+
 	}).catch(function(err) {
 		const dataDesc = [
 			current.site.id,
@@ -201,11 +211,12 @@ function makeOneBlock(blockInfo, ageLimit) {
 function drawBlocks() {
 	debugMsg('entering drawBlocks', 2)
 
+	const holder = document.querySelector('#blocksholder')
+	holder.innerHTML = ''
 	current.layout.display.forEach( function(block) {
 		console.log(block.element)
 		let blockElem = makeOneBlock(block, current.layout.agelimit)
-		document.querySelector('#blocksholder').appendChild(blockElem)
-
+		holder.appendChild(blockElem)
 	}.bind(this))
 
 }
