@@ -1,24 +1,42 @@
 
 const moment = require('moment')
 
+window.moment = moment
+
 // --------------------------------------------------------
 function niceName(interval) {
 	return (
 		interval
 			.replace(/(\b|\d)d\b/, '$1 days')
+			.replace(/(\b|\d)min\b/, '$1 minutes')
 			.replace(/^1 (\w*)s$/, '1 $1')
 	)
 }
 // --------------------------------------------------------
 // how many of what are in the given interval
 function grok(interval) {
-	const bits = interval.match(/^(\d+)(.)$/)
+	const bits = interval.match(/^(\d+)(\w+)$/)
 	let unit = {
 		'd': 'days',
+		'min': 'minutes',
 		'y': 'years'
 	}[bits[2]]
 	count = parseInt(bits[1], 10)
 	return { unit, count }
+}
+// --------------------------------------------------------
+// is date1 before date2?
+function isBefore(date1, date2) {
+	const d1 = date1 ? moment(date1) : moment()
+	const d2 = date2 ? moment(date2) : moment()
+	return d1.isBefore(d2)
+}
+// --------------------------------------------------------
+// is date1 after date2?
+function isAfter(date1, date2) {
+	const d1 = date1 ? moment(date1) : moment()
+	const d2 = date2 ? moment(date2) : moment()
+	return d1.isAfter(d2)
 }
 // --------------------------------------------------------
 // earliest of two dates
@@ -59,6 +77,9 @@ function windForward(date, interval) {
 // the given date falls within
 function intervalName(date, interval) {
 	const unit = grok(interval).unit
+	if (unit === 'minutes') {
+		return moment(date).format('YYYY-MM-DD HH:mm')
+	}
 	if (unit === 'days') {
 		return moment(date).format('YYYY-MM-DD')
 	}
@@ -109,6 +130,7 @@ function toRangeSelector(interval, label) {
 		}
 	}
 
+	return false
 }
 // --------------------------------------------------------
 // --------------------------------------------------------
@@ -116,6 +138,7 @@ function toRangeSelector(interval, label) {
 module.exports = {
 	niceName,
 	windBack, windForward,
+	isBefore, isAfter,
 	earliest, latest,
 	intervalName,
 	listDates,

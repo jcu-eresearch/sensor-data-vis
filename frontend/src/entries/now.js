@@ -1,6 +1,6 @@
 
 const domTools = require('../domtools')
-// const intervalTools = require('../intervals')
+const intervalTools = require('../intervals')
 const dataImporter = require('../dataimport')
 // const colors = require('../colors')
 
@@ -102,10 +102,10 @@ function loadDataAndMakeBlocks() {
 			current.site.id,
 			current.dataset.id,
 			intervalTools.intervalName(current.date, current.dataset.period)
-		].join('::')
+		].join(' :: ')
 		current.data = null
 		alert('\nThere was a problem!\n\n'
-			+ 'Data for ' + dataDesc + ' is not available.'
+			+ 'Data for ' + dataDesc + ' is not available.\n\n' + err
 		)
 		clearLoading()
 	})
@@ -113,48 +113,58 @@ function loadDataAndMakeBlocks() {
 	current.loadProcess = dataLoadProcess
 }
 // --------------------------------------------------------
-function makeOneBlock(blockInfo) {
+/** return a new div with the supplied className.
+    If parent is supplied, the div will be appended
+    to that parent.
+*/
+function makeDiv(className, parent) {
+	const elem = document.createElement('div')
+	elem.className = className
+	if (parent) {
+		parent.appendChild(elem)
+	}
+	return elem
+}
+// --------------------------------------------------------
+function makeOneBlock(blockInfo, ageLimit) {
 
-	let b = document.createElement('div')
-	b.className = 'block'
+	ageLimit = ageLimit || '1y'
+	console.log('ageLimit is ' + ageLimit)
 
-	let bi = document.createElement('div')
-	bi.className = 'blockinner'
-	b.appendChild(bi)
+	let b = makeDiv('block')
+	let bi = makeDiv('blockinner', b)
+	let pre = makeDiv('preamble', bi)
+	let val = makeDiv('value', bi)
+	let units = makeDiv('units', bi)
+	let post = makeDiv('postamble', bi)
 
-	let pre = document.createElement('div')
-	pre.className = 'preamble'
-	bi.appendChild(pre)
+	pre.innerHTML = blockInfo.preamble || ''
+	units.innerHTML = blockInfo.units || ''
+	post.innerHTML = blockInfo.postamble || ''
 
-	let val = document.createElement('div')
-	val.className = 'value'
-	bi.appendChild(val)
-
-	let units = document.createElement('div')
-	units.className = 'units'
-	bi.appendChild(units)
-
-	let post = document.createElement('div')
-	post.className = 'postamble'
-	bi.appendChild(post)
-
-	// get the value into there
-	val.innerHTML = 'XX'
+	// get the value into val
+	val.innerHTML = '--'
 	let data = current.data[blockInfo.element]
+	let tooOld = intervalTools.windBack(new Date(), ageLimit)
 	for (let i = data.length-1; i >= 0; i--) {
+		// bail out of we're too old now
+		if (intervalTools.isAfter(tooOld, current.data.time[i])) {
+			// the latest data is too old
+			val.innerHTML = '--'
+			units.innerHTML = 'no recent reading'
+			break
+		}
+		// if this is valid data, get it and bail out
 		if (data[i]) {
 			val.innerHTML = data[i]
 			break
 		}
 	}
-	pre.innerHTML = blockInfo.preamble || ''
-	units.innerHTML = blockInfo.units || ''
-	post.innerHTML = blockInfo.postamble || ''
 
-	if (Math.random() < 0.9) {
-		val.innerHTML = '--'
-		units.innerHTML = 'no recent reading'
-	}
+	// if (Math.random() > 0.9) {
+	// 	val.innerHTML = '--'
+	// 	units.innerHTML = 'no recent reading'
+	// }
 
 	b.style.color = blockInfo.textcolor || '#000'
 
@@ -193,7 +203,7 @@ function drawBlocks() {
 
 	current.layout.display.forEach( function(block) {
 		console.log(block.element)
-		let blockElem = makeOneBlock(block)
+		let blockElem = makeOneBlock(block, current.layout.agelimit)
 		document.querySelector('#blocksholder').appendChild(blockElem)
 
 	}.bind(this))

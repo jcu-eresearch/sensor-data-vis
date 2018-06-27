@@ -4,9 +4,8 @@
 			"id": "windward",
 			"site": "darwin",
 			"dataset": "rawdata",
-			"note": "time periods are in minutes",
-			"agelimit": 20,
-			"refreshperiod": 5,
+			"agelimit": "1y",
+			"refresh": "5min",
 			"display": [
 				{
 					"element": "par",
@@ -36,8 +35,8 @@
 			"site": "darwin",
 			"dataset": "rawdata",
 			"note": "time periods are in minutes",
-			"agelimit": 20,
-			"refreshperiod": 5,
+			"agelimit": "200000min",
+			"refresh": "5min",
 			"display": [
 				{
 					"element": "turbidity",
