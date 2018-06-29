@@ -19,9 +19,13 @@
 				background: #f4f4e4;
 				background: #ddeeff;
 				background: #eef8ff;
-				padding: 0 1em;
 				font-size: 16px;
-				font-size: calc(10px + 0.55vw);
+				font-size: calc(12px + 0.75vw);
+			}
+			html, body {
+				padding: 0;
+				margin: 0;
+				width: 100%;
 			}
 			#blocksholder {
 				width: 100%;
@@ -31,6 +35,7 @@
 				max-width: 50rem;
 				margin: 0 auto;
 				padding: 0;
+				margin-top: -1px;
 			}
 			#blocksholder .blockinner {
 				position: relative;
@@ -74,6 +79,7 @@
 				border: none;
 				margin: 0;
 				padding: 0.5em 1em;
+				padding: 0.1em 0;
 				text-align: center;
 			}
 			fieldset label {
@@ -87,20 +93,20 @@
 			fieldset.loading {
 				min-width: 5em;
 				text-align: left;
-				height: 1.5em;
-				line-height: 1.5em;
+				height: 1.25em;
+				line-height: 1.25em;
 				padding-left: 2.5em;
 				position: relative;
 				transition: 1s;
 			}
 			fieldset.loading:before, fieldset.loading:after {
 				content: '';
-				width: 1.25em; height: 1.25em;
+				width: 1.1em; height: 1.1em;
 				border-radius: 50%;
 				background-color: #6fc;
 				opacity: 0.6;
 				position: absolute;
-				top: calc(50% - 0.675em); left: 0.7em;
+				top: calc(50% - 0.55em); left: 0.7em;
 
 				-webkit-animation: sk-bounce 1.6s infinite ease-in-out;
 				animation: sk-bounce 1.6s infinite ease-in-out;
