@@ -13,15 +13,17 @@
 					"units": "µmol/m²/s",
 					"postamble": "PAR postamble",
 					"textcolor": "#000",
-					"image": "http://fillmurray.com/200/300",
-					"background": "#ffc"
+					"background": "#ffc",
+					"image": "https://morganfillman.space/200/300",
+					"bgimage": "https://morganfillman.space/100/100",
+					"bgposition": "top left"
 				},{
 					"element": "temp",
 					"preamble": "tmp preamble",
 					"units": "°C",
 					"postamble": "tmp postamble",
 					"textcolor": "#933",
-					"image": "http://fillmurray.com/600/300",
+					"image": "https://morganfillman.space/600/300",
 					"background": ["#9ef", "#6ac"]
 				},{
 					"element": "turbidity",
@@ -42,7 +44,7 @@
 					"element": "turbidity",
 					"units": "FTU",
 					"textcolor": "#420",
-					"image": "http://fillmurray.com/300/300",
+					"image": "https://morganfillman.space/300/300",
 					"background": ["#6ac", "#653"]
 				},{
 					"element": "par",

@@ -171,20 +171,26 @@ function makeOneBlock(blockInfo, ageLimit) {
 		}
 	}
 
-	// if (Math.random() > 0.9) {
-	// 	val.innerHTML = '--'
-	// 	units.innerHTML = 'no recent reading'
-	// }
+	if (blockInfo.image) {
+		let img = document.createElement('img')
+		img.src = blockInfo.image
+		bi.insertBefore(img, pre)
+	}
 
 	b.style.color = blockInfo.textcolor || '#000'
 
 	let backgrounds = []
 	let bgPositions = []
 	let bgSizes = []
-	if (blockInfo.image) {
-		backgrounds.push('url(' + blockInfo.image + ')')
-		bgPositions.push('25% 50%')
-		bgSizes.push('auto 80%')
+
+	if (blockInfo.bgimage) {
+		backgrounds.push('url(' + blockInfo.bgimage + ')')
+		if (blockInfo.bgposition) {
+			bgPositions.push(blockInfo.bgposition)
+		} else {
+			bgPositions.push('center')
+		}
+		bgSizes.push('auto')
 	}
 	if (blockInfo.background) {
 		if (typeof blockInfo.background === 'string') {
