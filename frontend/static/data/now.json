@@ -9,26 +9,28 @@
 			"display": [
 				{
 					"element": "par",
-					"preamble": "the amount of light that is available for photosynthesis",
+					"preamble": "available light for photosynthesis",
 					"units": "µmol/m²/s",
 					"postamble": "PAR postamble",
 					"textcolor": "#000",
 					"background": "#ffc",
-					"image": "https://morganfillman.space/200/300",
+					"image": "/images/sun.svg",
 					"bgimage": "https://morganfillman.space/100/100",
 					"bgposition": "top left"
 				},{
 					"element": "temp",
-					"preamble": "tmp preamble",
+					"preamble": "water temperature",
 					"units": "°C",
 					"postamble": "tmp postamble",
 					"textcolor": "#933",
-					"image": "https://morganfillman.space/600/300",
+					"image": "/images/Temperature.svg",
 					"background": ["#9ef", "#6ac"]
 				},{
 					"element": "turbidity",
+					"preamble": "murkiness of the water",
 					"units": "FTU",
 					"textcolor": "#420",
+					"image": "/images/bubbles.svg",
 					"background": ["#6ac", "#653"]
 				}
 			]
