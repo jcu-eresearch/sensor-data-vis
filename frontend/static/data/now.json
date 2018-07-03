@@ -11,17 +11,17 @@
 					"element": "par",
 					"preamble": "available light for photosynthesis",
 					"units": "µmol/m²/s",
-					"postamble": "PAR postamble",
+					"postamble": "",
 					"textcolor": "#000",
 					"background": "#ffc",
 					"image": "/images/sun.svg",
-					"bgimage": "https://morganfillman.space/100/100",
+					"Xbgimage": "https://morganfillman.space/100/100",
 					"bgposition": "top left"
 				},{
 					"element": "temp",
 					"preamble": "water temperature",
 					"units": "°C",
-					"postamble": "tmp postamble",
+					"postamble": "",
 					"textcolor": "#933",
 					"image": "/images/Temperature.svg",
 					"background": ["#9ef", "#6ac"]

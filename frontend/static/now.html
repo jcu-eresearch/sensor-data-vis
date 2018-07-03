@@ -37,7 +37,7 @@
 				padding: 0;
 				margin-top: -1px;
 			}
-			#blocksholder .blockinner {
+			.blockinner {
 				position: relative;
 				box-sizing: border-box;
 				min-height: 8rem;
@@ -51,12 +51,13 @@
 			.blockinner > img {
 				position: absolute;
 				z-index: 2;
-				max-height: 75%;
+				max-height: 66%;
 				max-width: 33%;
 				left: 29%;
 				top: 50%;
 				-ms-transform: translate(-50%, -50%);
 				transform: translate(-50%, -50%);
+				opacity: 0.25;
 			}
 			.blockinner .preamble {
 				font-size: 0.8rem;
@@ -81,6 +82,20 @@
 				left: 42%;
 				right: 0;
 			}
+
+			/* switch sides */
+			.block:nth-child(even) .blockinner {
+				padding: 0 42% 0 0;
+			}
+			.block:nth-child(even) .blockinner > img {
+				left: 71%;
+			}
+			.block:nth-child(even) .blockinner .preamble,
+			.block:nth-child(even) .blockinner .postamble {
+				right: 42%;
+				left: 0;
+			}
+
 			form {
 				padding: 0;
 			}
