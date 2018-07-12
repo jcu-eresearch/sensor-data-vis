@@ -211,6 +211,30 @@ function makeOneBlock(blockInfo, ageLimit) {
 		b.style.backgroundSize = bgSizes.join(', ')
 	}
 
+	if (blockInfo.bottomedge) {
+		// make a div to draw the bottom edge
+		let edge = makeDiv('bottomedge ' + blockInfo.bottomedge, bi)
+
+		// work out the colour at the top of the edge
+		let topColor = '#fff'
+		if (blockInfo.background && typeof blockInfo.background === 'string') {
+			topColor = blockInfo.background
+		} else {
+			topColor = blockInfo.background[blockInfo.background.length - 1]
+		}
+
+		// do the special handling
+		if (blockInfo.bottomedge === 'waves') {
+			edge.style.backgroundRepeat = "repeat"
+			edge.style.backgroundSize = "20px 20px"
+			edge.style.backgroundImage = "radial-gradient(circle at 10px -6px, " + topColor + " 12px, transparent 13px)"
+		}
+
+		if (blockInfo.bottomedge === 'fade') {
+			edge.style.backgroundImage = "linear-gradient(to bottom, " + topColor + ", transparent)"
+		}
+	}
+
 	return b
 }
 // --------------------------------------------------------
