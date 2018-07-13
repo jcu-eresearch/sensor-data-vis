@@ -30,6 +30,7 @@
 					"element": "turbidity",
 					"preamble": "murkiness of the water",
 					"units": "FTU",
+					"postamble": "a.k.a. turbidity",
 					"textcolor": "#420",
 					"image": "/images/bubbles.svg",
 					"background": ["#6ac", "#653"],

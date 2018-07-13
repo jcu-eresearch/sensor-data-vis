@@ -43,10 +43,10 @@
 				position: relative;
 				box-sizing: border-box;
 				min-height: 8rem;
-				width: 100%;
-				margin: 0;
+				max-width: 40rem;
+				margin: 0 auto;
 				/* 5px top padding in case the block above has an edge */
-				padding: 5px 0 0 42%;
+				padding-top: 5px;
 				text-align: center;
 				line-height: 1;
 				font-size: 1rem;
@@ -71,6 +71,7 @@
 			}
 			.blockinner .value {
 				padding-top: 2.25rem;
+				padding-left: 42%;
 				font-size: 2.5rem;
 				font-family: Futura, Century Gothic, Arial Black, sans-serif;
 				font-weight: 900;
@@ -79,6 +80,7 @@
 				/*letter-spacing: 0.03em;*/
 			}
 			.blockinner .units {
+				padding-left: 42%;
 			}
 			.blockinner .postamble {
 				font-size: 0.8rem;
@@ -96,8 +98,10 @@
 			}
 
 			/* switch sides */
-			.block:nth-child(even) .blockinner {
-				padding: 0 42% 0 0;
+			.block:nth-child(even) .blockinner .value,
+			.block:nth-child(even) .blockinner .units {
+				padding-left: 0;
+				padding-right: 42%;
 			}
 			.block:nth-child(even) .blockinner > img {
 				left: 71%;
