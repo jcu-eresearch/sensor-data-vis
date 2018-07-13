@@ -100,7 +100,6 @@ function loadDataAndMakeBlocks() {
 
 		// set up the data refresh
 		const refresh = current.layout.refresh || '5min'
-		console.log(intervalTools.secondsIn(refresh) * 1000)
 
 		setTimeout(
 			function() { loadDataAndMakeBlocks() }.bind(this),
@@ -139,7 +138,6 @@ function makeDiv(className, parent) {
 function makeOneBlock(blockInfo, ageLimit) {
 
 	ageLimit = ageLimit || '1y'
-	console.log('ageLimit is ' + ageLimit)
 
 	let b = makeDiv('block')
 	let bi = makeDiv('blockinner', b)
@@ -213,7 +211,7 @@ function makeOneBlock(blockInfo, ageLimit) {
 
 	if (blockInfo.bottomedge) {
 		// make a div to draw the bottom edge
-		let edge = makeDiv('bottomedge ' + blockInfo.bottomedge, bi)
+		let edge = makeDiv('bottomedge ' + blockInfo.bottomedge, b)
 
 		// work out the colour at the top of the edge
 		let topColor = '#fff'
@@ -226,8 +224,8 @@ function makeOneBlock(blockInfo, ageLimit) {
 		// do the special handling
 		if (blockInfo.bottomedge === 'waves') {
 			edge.style.backgroundRepeat = "repeat"
-			edge.style.backgroundSize = "20px 20px"
-			edge.style.backgroundImage = "radial-gradient(circle at 10px -6px, " + topColor + " 12px, transparent 13px)"
+			edge.style.backgroundSize = "22px 22px"
+			edge.style.backgroundImage = "radial-gradient(circle at 11px -6px, " + topColor + " 12px, transparent 13px)"
 		}
 
 		if (blockInfo.bottomedge === 'fade') {
@@ -244,7 +242,6 @@ function drawBlocks() {
 	const holder = document.querySelector('#blocksholder')
 	holder.innerHTML = ''
 	current.layout.display.forEach( function(block) {
-		console.log(block.element)
 		let blockElem = makeOneBlock(block, current.layout.agelimit)
 		holder.appendChild(blockElem)
 	}.bind(this))
