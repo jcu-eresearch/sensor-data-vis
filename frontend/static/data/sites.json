@@ -4,6 +4,7 @@
 			"id": "darwin",
 			"name": "Darwin Harbour at 18m",
 			"desc": "sensor installation on NRS buoy in Darwin Harbour",
+			"credits": "Based on Australian Institute of Marine Science data",
 			"datasets": [
 				{
 					"id": "dailysummary",

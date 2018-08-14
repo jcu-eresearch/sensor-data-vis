@@ -74,6 +74,12 @@ function siteSelected() {
 	// make sure the "select a site" thing is disabled now
 	sel.options.item(0).disabled = true
 
+	// add this site's credit line
+	console.log(current.site.credits)
+	if (current.site.credits) {
+		document.querySelector('.credits').innerHTML = current.site.credits
+	}
+
 	clearGraphs()
 	clearDownload()
 	populateDatasetSelector(current.site.datasets)
