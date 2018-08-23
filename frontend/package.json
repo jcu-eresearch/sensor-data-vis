@@ -25,8 +25,8 @@
     "webpack-dev-server": "^3.1.4"
   },
   "dependencies": {
-    "npm": "^6.1.0",
-    "plotly.js": "^1.33.0",
+    "npm": "^6.4.0",
+    "plotly.js": "^1.40.1",
     "whatwg-fetch": "^2.0.4"
   }
 }
