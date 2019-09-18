@@ -1,168 +1,232 @@
 {
-	"sites": [
-		{
-			"id": "darwin",
-			"name": "Darwin Harbour at 18m",
-			"desc": "sensor installation on NRS buoy in Darwin Harbour",
-			"credits": "Based on Australian Institute of Marine Science data",
-			"datasets": [
-				{
-					"id": "dailysummary",
-					"name": "Per day summaries",
-					"aggregation": "1d",
-					"period": "all",
-					"intervals": ["1y", "90d", "30d"],
-					"timeid": "date_time",
-					"metadata": "some url",
-					"accreditation": "credits for the data",
-					"defaultgraph": [
-						"temp-min",
-						"temp-max",
-						"par-daily"
-					],
-					"elements": [
-						{
-							"id": "turb-avg",
-							"name": "Avg turbidity @ 18m",
-							"desc": "Daily average turbidity 18 metres below waterline",
-							"axis": "Turbidity (FTU)",
-							"start": "2015-02-14",
-							"end": null
-						},{
-							"id": "temp-min",
-							"name": "Min temp @ 18m",
-							"desc": "Daily minimum temperature 18 metres below waterline",
-							"axis": "Temperature (°C)",
-							"start": "2015-02-14",
-							"end": null
-						},{
-							"id": "temp-max",
-							"name": "Max temp @ 18m",
-							"desc": "Daily maximum temperature 18 metres below waterline",
-							"axis": "Temperature (°C)",
-							"start": "2015-02-14",
-							"end": null
-						},{
-							"id": "temp-avg",
-							"name": "Avg temp @ 18m",
-							"desc": "Daily average temperature 18 metres below waterline",
-							"axis": "Temperature (°C)",
-							"start": "2015-02-14",
-							"end": null
-						},{
-							"id": "par-daily",
-							"name": "Daily PAR @ 18m",
-							"desc": "Daily total PAR 18 metres below waterline",
-							"axis": "PAR (mol/m²/day)",
-							"start": "2015-02-14",
-							"end": null
-						}
-					]
-				},{
-					"id": "rawdata",
-					"name": "Raw data",
-					"aggregation": "none",
-					"period": "1y",
-					"intervals": ["30d", "7d", "1d"],
-					"timeid": "date_time",
-					"elements": [
-						{
-							"id": "turbidity",
-							"name": "Turbidity @ 18m",
-							"desc": "Turbidity 18 metres below waterline",
-							"axis": "Turbidity (FTU)",
-							"start": "2015-02-14",
-							"end": null
-						},{
-							"id": "temp",
-							"name": "Temperature @ 18m",
-							"desc": "Temperature 18 metres below waterline",
-							"axis": "Temperature (°C)",
-							"start": "2015-02-14",
-							"end": null
-						},{
-							"id": "par",
-							"name": "PAR @ 18m",
-							"desc": "PAR 18 metres below waterline",
-							"axis": "PAR (µmol/m²/s)",
-							"start": "2015-02-14",
-							"end": null
-						}
-					]
-				}
-			]
-		},
-		{
-			"id": "yongala",
-			"name": "Wreck of the Yongala",
-			"desc": "sensor installation near the wreck of the SS Yongala",
-			"datasets": [
-				{
-					"id": "rawdata",
-					"name": "Raw data",
-					"aggregation": "none",
-					"period": "1y",
-					"intervals": ["30d", "7d", "1d"],
-					"timeid": "date time",
-					"defaultgraph": [
-						"Water Temperature @1.0m",
-						"Water Temperature @26.0m",
-						"PAR @26.0m"
-					],
-					"elements": [
-						{
-							"id": "Water Temperature @1.0m",
-							"name": "Water Temp @ 1m",
-							"desc": "Water temperature 1 metre below waterline",
-							"axis": "Temperature (°C)",
-							"start": "2013-09-19",
-							"end": null
-						},{
-							"id": "CurrentDirection @7.0m",
-							"name": "Current Bearing @ 7m",
-							"desc": "Water current direction 7 metres below waterline",
-							"axis": "Bearing (° from N)",
-							"start": "2013-09-19",
-							"end": null
-						},{
-							"id": "CurrentMagnitude @7.0m",
-							"name": "Current Magnitude @ 7m",
-							"desc": "Water current magitude 7 metres below waterline",
-							"axis": "Magnitude (m/sec)",
-							"start": "2013-09-19",
-							"end": null
-						},{
-							"id": "Turbidity @26.0m",
-							"name": "Turbidity @ 26m",
-							"desc": "Turbidity 26 metres below waterline",
-							"axis": "Turbidity (FTU)",
-							"start": "2013-09-19",
-							"end": null
-						},{
-							"id": "Water Pressure @26.0m",
-							"name": "Pressure @ 26m",
-							"desc": "Water pressure 26 metres below waterline",
-							"axis": "Pressure (decibars)",
-							"start": "2013-09-19",
-							"end": null
-						},{
-							"id": "Water Temperature @26.0m",
-							"name": "Water Temp @ 26m",
-							"desc": "Water temperature 26 metres below waterline",
-							"axis": "Temperature (°C)",
-							"start": "2013-09-19",
-							"end": null
-						},{
-							"id": "PAR @26.0m",
-							"name": "PAR @ 26m",
-							"desc": "PAR 26 metres below waterline",
-							"axis": "PAR (µmol/m²/s)",
-							"start": "2013-09-19",
-							"end": null
-						}
-					]
-				}
-			]
-		}
-	]
+    "sites": [
+        {
+        "id": "CR1000_Beach_FarSide_Hourly",
+        "name": "Weather Station @ Rocky Beach Orpheus",
+        "desc": "Campbell Scientific ClimaVue50 weather station sensor readings",
+        "datasets": [
+            {
+                "id": "qaqc-data",
+                "name": "Hourly aggregations ",
+                "aggregation": "60min",
+                "period": "1y",
+                "intervals": ["30d", "7d", "1d"],
+                "timeid": "timestamp",
+                "defaultgraph": ["airt_c_avg", "rain_mm_tot", "bp_hpa_avg"],
+                "elements": [
+                    {
+                        "id": "rain_mm_tot",
+                        "name": "Rain",
+                        "desc": "Total rain in millimetres over the hour",
+                        "axis": "Rain (mm)",
+                        "start": "2018-12-01",
+                        "end": null
+                    },
+                    {
+                        "id": "slrfd_kw_avg",
+                        "name": "Solar flux density",
+                        "desc": "Solar flux density averaged over an hour",
+                        "axis": "Solar Flux Density (kW/m^2)",
+                        "start": "2018-12-01",
+                        "end": null
+                    },
+                    {
+                        "id": "strikes_tot",
+                        "name": "Lightning strikes",
+                        "desc": "Count of lightning strikes",
+                        "axis": "Strikes (count)",
+                        "start": "2018-12-01",
+                        "end": null
+                    },
+                    {
+                        "id": "dist_km_avg",
+                        "name": "Avg distance to lightning strikes",
+                        "desc": "Average distance to lightning strikes detected this hour",
+                        "axis": "Avg dist to strikes (km)",
+                        "start": "2018-12-01",
+                        "end": null
+                    },
+                    {
+                        "id": "ws_ms_s_wvt",
+                        "name": "Mean wind speed",
+                        "desc": "Mean wind speed over the hour",
+                        "axis": "Mean wind speed (m/s)",
+                        "start": "2018-12-01",
+                        "end": null
+                    },
+                    {
+                        "id": "winddir_d1_wvt",
+                        "name": "Mean wind direction",
+                        "desc": "Mean wind direction over the hour",
+                        "axis": "Mean wind direction (degrees)",
+                        "start": "2018-12-01",
+                        "end": null
+                    },
+                    {
+                        "id": "winddir_sd1_wvt",
+                        "name": "Mean wind direction standard deviation",
+                        "desc": "Mean wind direction standard deviation over the hour",
+                        "axis": "Mean wind direction SD (degrees)",
+                        "start": "2018-12-01",
+                        "end": null
+                    },
+                    {
+                        "id": "maxws_ms_max",
+                        "name": "Maximum wind speed",
+                        "desc": "Maximum wind speed during the hour",
+                        "axis": "Max wind speed (m/s)",
+                        "start": "2018-12-01",
+                        "end": null
+                    },
+                    {
+                        "id": "airt_c_max",
+                        "name": "Max air temperature",
+                        "desc": "Max air temperature during the hour",
+                        "axis": "Max Air Temp (°C)",
+                        "start": "2018-12-01",
+                        "end": null
+                    },
+                    {
+                        "id": "airt_c_min",
+                        "name": "Min air temperature",
+                        "desc": "Min air temperature during the hour",
+                        "axis": "Min Air Temp (°C)",
+                        "start": "2018-12-01",
+                        "end": null
+                    },
+                    {
+                        "id": "airt_c_avg",
+                        "name": "Average air temperature",
+                        "desc": "Average air temperature over the hour",
+                        "axis": "Avg Air Temp (°C)",
+                        "start": "2018-12-01",
+                        "end": null
+                    },
+                    {
+                        "id": "bp_hpa_avg",
+                        "name": "Average Barometric Pressure",
+                        "desc": "Average Barometric Pressure in hPa",
+                        "axis": "Avg Barometric Pressure (hPa)",
+                        "start": "2018-12-12",
+                        "end": null
+                    },
+                    {
+                        "id": "rht_c_avg",
+                        "name": "Average relative humidity temperature",
+                        "desc": "Average relative humidity temperatur over the hour",
+                        "axis": "Avg RHT (°C)",
+                        "start": "2018-12-01",
+                        "end": null
+                    }
+                ]
+            },
+            {
+                "id": "aggregated-data",
+                "name": "Daily aggregations",
+                "aggregation": "1d",
+                "period": "1y",
+                "intervals": ["90d", "30d", "7d"],
+                "timeid": "date",
+                "defaultgraph": ["rain_daily_total", "air_temp_avg", "bp_avg"],
+                "elements": [
+                    {
+                        "id": "rain_daily_total",
+                        "name": "Rain daily total",
+                        "desc": "Daily total of rain in millimetres",
+                        "axis": "Rain (mm)",
+                        "start": "2018-12-01",
+                        "end": null
+                    },
+                    {
+                        "id": "strikes_tot",
+                        "name": "Lightning strikes",
+                        "desc": "Daily total of lightning strikes",
+                        "axis": "Strikes (count)",
+                        "start": "2018-12-01",
+                        "end": null
+                    },
+                    {
+                        "id": "strike_dist_avg",
+                        "name": "Average distance to lightning strikes",
+                        "desc": "Daily average distance to lightning strikes",
+                        "axis": "Avg dist to strike (km)",
+                        "start": "2018-12-01",
+                        "end": null
+                    },
+                    {
+                        "id": "windspeed_max",
+                        "name": "Max windspeed",
+                        "desc": "Maximum daily windspeed",
+                        "axis": "Max windspeed (m/s)",
+                        "start": "2018-12-01",
+                        "end": null
+                    },
+                    {
+                        "id": "windspeed_avg",
+                        "name": "Average windspeed",
+                        "desc": "Daily average windspeed in m/s",
+                        "axis": "Avg windspeed (m/s)",
+                        "start": "2018-12-01",
+                        "end": null
+                    },
+                    {
+                        "id": "winddir_avg",
+                        "name": "Average wind direction",
+                        "desc": "Daily average wind direction",
+                        "axis": "Avg wind dir (°)",
+                        "start": "2018-12-01",
+                        "end": null
+                    },
+                    {
+                        "id": "winddir_sd1_wvt",
+                        "name": "Wind direction standard deviation",
+                        "desc": "Daily average standard deviation of wind direction",
+                        "axis": "",
+                        "start": "2018-12-01",
+                        "end": null
+                    },
+                    {
+                        "id": "air_temp_max",
+                        "name": "Max air temperature",
+                        "desc": "Daily maximum air temperature",
+                        "axis": "Max air temp (°)",
+                        "start": "2018-12-01",
+                        "end": null
+                    },
+                    {
+                        "id": "air_temp_min",
+                        "name": "Min air temperature",
+                        "desc": "Daily minimum air temperature",
+                        "axis": "Min air temp (°)",
+                        "start": "2018-12-01",
+                        "end": null
+                    },
+                    {
+                        "id": "air_temp_avg",
+                        "name": "Avg air temperature",
+                        "desc": "Daily average air temperature",
+                        "axis": "Avg air temp (°)",
+                        "start": "2018-12-01",
+                        "end": null
+                    },
+                    {
+                        "id": "rht_avg",
+                        "name": "Relative humidity air temperature",
+                        "desc": "Daily average relative humidity air temperature",
+                        "axis": "RHT (°)",
+                        "start": "2018-12-01",
+                        "end": null
+                    },
+                    {
+                        "id": "bp_avg",
+                        "name": "Avg barometric pressure",
+                        "desc": "Daily average barometri air pressure",
+                        "axis": "Avg BP (hPa)",
+                        "start": "2018-12-01",
+                        "end": null
+                    }
+                ]
+            }
+        ]
+    }]
 }

@@ -1,0 +1,117 @@
+{
+    "sites": [{
+        "id": "CR1000_Beach_FarSide_Hourly",
+        "name": "Weather Station @ Rocky Beach Orpheus",
+        "desc": "Campbell Scientific ClimaVue50 weather station sensor readings",
+        "datasets": [{
+                "id": "qaqc-data",
+                "name": "Hourly aggregations ",
+                "aggregation": "60min",
+                "period": "1y",
+                "intervals": ["30d", "7d", "1d"],
+                "timeid": "datetime",
+                "defaultgraph": [
+                    "airt_c_avg", "rain_mm_tot", "bp_hpa_avg"
+                ],
+                "elements": [{
+                        "id": "rain_mm_tot",
+                        "name": "Rain Total",
+                        "desc": "Rain total in millimetres over the hour",
+                        "axis": "Millimeteres (mm)",
+                        "start": "2018-12-01",
+                        "end": null
+                    },
+                    {
+                        "id": "airt_c_avg",
+                        "name": "Average air temperature",
+                        "desc": "Average air temperature over the hour",
+                        "axis": "Temperature (°C)",
+                        "start": "2018-12-01",
+                        "end": null
+                    },
+                    {
+                        "id": "airt_c_max",
+                        "name": "Max air temperature",
+                        "desc": "Max air temperature during the hour",
+                        "axis": "Temperature (°C)",
+                        "start": "2018-12-01",
+                        "end": null
+                    },
+                    {
+                        "id": "airt_c_min",
+                        "name": "Min air temperature",
+                        "desc": "Min air temperature during the hour",
+                        "axis": "Temperature (°C)",
+                        "start": "2018-12-01",
+                        "end": null
+                    },
+                    {
+                        "id": "slrfd_kw_avg",
+                        "name": "Solar flux density",
+                        "desc": "Solar flux density averaged over an hour",
+                        "axis": "Solar Flux Density (kW/m^2)",
+                        "start": "2018-12-01",
+                        "end": null
+                    },
+                    {
+                        "id": "strikes_tot",
+                        "name": "Lightning strikes",
+                        "desc": "Count of lightning strikes",
+                        "axis": "Strikes (count)",
+                        "start": "2018-12-01",
+                        "end": null
+                    },
+                    {
+                        "id": "maxws_ms_max",
+                        "name": "Maximum wind speed",
+                        "desc": "Maximum wind speed during the hour",
+                        "axis": "Max wind speed (m/s)",
+                        "start": "2018-12-01",
+                        "end": null
+                    },
+                    {
+                        "id": "ws_ms_s_wvt",
+                        "name": "Mean wind speed",
+                        "desc": "Mean wind speed over the hour",
+                        "axis": "Mean wind speed (m/s)",
+                        "start": "2018-12-01",
+                        "end": null
+                    },
+                    {
+                        "id": "winddir_d1_wvt",
+                        "name": "Mean wind direction",
+                        "desc": "Mean wind direction over the hour",
+                        "axis": "Mean wind direction (degrees)",
+                        "start": "2018-12-01",
+                        "end": null
+                    },
+                    {
+                        "id": "winddir_sd1_wvt",
+                        "name": "Mean wind direction standard deviation",
+                        "desc": "Mean wind direction standard deviation over the hour",
+                        "axis": "Mean wind direction SD (degrees)",
+                        "start": "2018-12-01",
+                        "end": null
+                    },
+                    {
+                        "id": "rht_c_avg",
+                        "name": "Average relative humidity temperature",
+                        "desc": "Average relative humidity temperatur over the hour",
+                        "axis": "RHT (°C)",
+                        "start": "2018-12-01",
+                        "end": null
+                    },
+                    {
+                        "id": "bp_hpa_avg",
+                        "name": "Average Barometric Pressure",
+                        "desc": "Average Barometric Pressure in hPa",
+                        "axis": "Avg Barometric Pressure (hPa)",
+                        "start": "2018-12-12",
+                        "end": null
+                    }
+                ]
+
+            }
+        ]
+    }]
+}
