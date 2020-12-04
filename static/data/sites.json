@@ -2,7 +2,7 @@
     "sites": [
         {
         "id": "CR1000_Beach_FarSide_Hourly",
-        "name": "Weather Station @ Rocky Beach Orpheus",
+        "name": "Weather Station @ Rocky Beach, Orpheus Is.",
         "desc": "Campbell Scientific ClimaVue50 weather station sensor readings",
         "datasets": [
             {
@@ -228,5 +228,188 @@
                 ]
             }
         ]
-    }]
+        },
+        {
+        "id": "Farside_Neph_SensorData",
+        "name": "Nephelometer @ Rocky Beach, Orpheus Is.",
+        "desc": "Sensor values for nephelometer deployed at Rocky Bay",
+        "datasets": [
+            {
+                "id": "qaqc-data",
+                "name": "Calibrated sensor data",
+                "aggregation": "none",
+                "period": "1y",
+                "intervals": ["30d", "7d", "1d"],
+                "timeid": "timestamp",
+                "defaultgraph": [
+                    "light", "temperature", "water_depth"
+                ],
+                "elements": [{
+                        "id": "light",
+                        "name": "Light ",
+                        "desc": "Amount of light in 10 minutes",
+                        "axis": "PAR (mol/m²/day)",
+                        "start": "2019-01-01",
+                        "end": null
+                    },
+                    {
+                        "id": "temperature",
+                        "name": "Temperature",
+                        "desc": "Water temperature",
+                        "axis": "Temperature (°C)",
+                        "start": "2019-01-01",
+                        "end": null
+                    },
+                    {
+                        "id": "turbidity_ntu",
+                        "name": "Turbidity",
+                        "desc": "Turbidity by amount of light scattered",
+                        "axis": "Turbidity (NTU)",
+                        "start": "2019-01-01",
+                        "end": null
+                    },
+                    {
+                        "id": "water_depth",
+                        "name": "Water Depth",
+                        "desc": "Water depth averaged over 10 pressure readings in 10 seconds",
+                        "axis": "Depth Metres (m)",
+                        "start": "2019-01-01",
+                        "end": null
+                    },
+                    {
+                        "id": "rms_water_depth",
+                        "name": "RMS Water Depth",
+                        "desc": "Root mean square used to indicate wave height variation",
+                        "axis": "RMS Depth Metres (m)",
+                        "start": "2019-01-01",
+                        "end": null
+                    }
+                ]
+
+            },
+            {
+                "id": "aggregated-data",
+                "name": "Daily aggregated data",
+                "aggregation": "1d",
+                "period": "1y",
+                "intervals": ["90d", "30d","7d"],
+                "timeid": "date",
+                "defaultgraph": [
+                    "total_daily_par", "temp_avg", "depth_avg"
+                ],
+                "elements": [{
+                        "id": "total_daily_par",
+                        "name": "Total Daily PAR",
+                        "desc": "Amount of PAR collected over entire day",
+                        "axis": "Total PAR (mol/m²/day)",
+                        "start": "2019-01-01",
+                        "end": null
+                    }, {
+                        "id": "par_avg",
+                        "name": "Average Daily PAR",
+                        "desc": "Average of the PAR readings over the day",
+                        "axis": "Avg PAR (mol/m²)",
+                        "start": "2019-01-01",
+                        "end": null
+                    },{
+                        "id": "temp_min",
+                        "name": "Minimum Temperature",
+                        "desc": "Minimum temperature for the day",
+                        "axis": "Min Temp (°C)",
+                        "start": "2019-01-01",
+                        "end": null
+                    },
+                    {
+                        "id": "temp_max",
+                        "name": "Maximum Temperature",
+                        "desc": "Maximum temperature for the day",
+                        "axis": "Max Temp (°C)",
+                        "start": "2019-01-01",
+                        "end": null
+                    },
+                    {
+                        "id": "temp_avg",
+                        "name": "Average Temperature",
+                        "desc": "Average temperature for the day",
+                        "axis": "Avg Temp (°C)",
+                        "start": "2019-01-01",
+                        "end": null
+                    },
+                    {
+                        "id": "turbidity_ntu_avg",
+                        "name": "Average Turbidity",
+                        "desc": "Average turbidity for the day",
+                        "axis": "Avg Turbidity (NTU)",
+                        "start": "2019-01-01",
+                        "end": null
+                    },
+                    {
+                        "id": "turbidity_ntu_min",
+                        "name": "Minimum Turbidity",
+                        "desc": "Minimum turbidity for the day",
+                        "axis": "Min Turbidity (NTU)",
+                        "start": "2019-01-01",
+                        "end": null
+                    },
+                    {
+                        "id": "turbidity_ntu_max",
+                        "name": "Maximum Turbidity",
+                        "desc": "Maximum turbidity for the day",
+                        "axis": "Max Turbidity (NTU)",
+                        "start": "2019-01-01",
+                        "end": null
+                    },
+                    {
+                        "id": "depth_avg",
+                        "name": "Average Water Depth",
+                        "desc": "Average water depth for the day",
+                        "axis": "Avg Depth (m)",
+                        "start": "2019-01-01",
+                        "end": null
+                    },
+                    {
+                        "id": "depth_min",
+                        "name": "Minimum Water Depth",
+                        "desc": "Minimum water depth for the day",
+                        "axis": "Min Depth (m)",
+                        "start": "2019-01-01",
+                        "end": null
+                    },
+                    {
+                        "id": "depth_max",
+                        "name": "Maximum Water Depth",
+                        "desc": "Maximum water depth for the day",
+                        "axis": "Max Depth (m)",
+                        "start": "2019-01-01",
+                        "end": null
+                    },
+                    {
+                        "id": "rms_depth_avg",
+                        "name": "Average RMS Water Depth",
+                        "desc": "Average RMS water depth for the day",
+                        "axis": "Avg RMS Depth (m)",
+                        "start": "2019-01-01",
+                        "end": null
+                    },
+                    {
+                        "id": "rms_depth_min",
+                        "name": "Minimum RMS Water Depth",
+                        "desc": "Minimum RMS water depth for the day",
+                        "axis": "Min RMS Depth (m)",
+                        "start": "2019-01-01",
+                        "end": null
+                    },
+                    {
+                        "id": "rms_depth_max",
+                        "name": "Maximum RMS Water Depth",
+                        "desc": "Maximum RMS water depth for the day",
+                        "axis": "Max RMS Depth (m)",
+                        "start": "2019-01-01",
+                        "end": null
+                    }
+                ]
+            }
+        ]
+        }
+    ]
 }
