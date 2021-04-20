@@ -4,22 +4,10 @@ const d3 = require("plotly.js").d3;
 
 // --------------------------------------------------------
 
-// use local sample data
+// we are using local data but it could be from a URL served elsewhere
 const dataDescriptorUrl = "./data/sites.json";
 const nowSetupUrl = "./data/now.json";
 const dataLocationPrefix = "./data";
-
-// production urls
-// if want to use current production then comment out the above and uncomment these
-// const dataDescriptorUrl = "https://cotr.jcu.io/public/sites.json";
-// const nowSetupUrl = "https://cotr.jcu.io/public/now.json";
-// const dataLocationPrefix = 'https://cotr.jcu.io/public'
-
-// vagrant urls
-// if you have a vagrant machine up then comment out the above and uncomment these
-// const dataDescriptorUrl = "http://192.168.88.22/public/sites.json";
-// const nowSetupUrl = "http://192.168.88.22/public/now.json";
-// const dataLocationPrefix = 'http://192.168.88.22/public'
 
 // --------------------------------------------------------
 function getNowInfo(nowUrl) {
